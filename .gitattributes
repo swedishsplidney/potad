@@ -1,0 +1,1 @@
+models/potad3.stp filter=lfs diff=lfs merge=lfs -text
