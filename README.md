@@ -11,12 +11,13 @@ POTAD (portable open-source tool (for) all-in-one development) is a small, batte
   * a keyboard
   * the key board will fold out
   * no mouse (trackpad maybe??)
+    * would be dificalt for space reasons 
 * things it can do
   * ide stuff
   * flash to micro controlers
   * sql database editing
 * stats
-  * i think we will modify a pi 0
+  * cpu is going to be a rp2040
   * like a mid battery i am hoping for like 1-2 hr battery life (it could theoretically get 14hr battery on a 2500mah lipo)
 * random things i thought up no clue if any of this is posible or even a good idea
   * we could make it with a nfc card in it so it can be use to unlock like your computer
