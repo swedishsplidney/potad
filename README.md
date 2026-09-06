@@ -17,7 +17,7 @@ POTAD (portable open-source tool (for) all-in-one development) is a small, batte
   * flash to micro controlers
   * sql database editing
 * stats
-  * cpu is going to be a rp2040
+  * cpu is going to be a Allwinner Tech H616
   * like a mid battery i am hoping for like 1-2 hr battery life (it could theoretically get 14hr battery on a 2500mah lipo)
 * random things i thought up no clue if any of this is posible or even a good idea
   * we could make it with a nfc card in it so it can be use to unlock like your computer
