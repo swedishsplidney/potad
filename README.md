@@ -22,3 +22,11 @@ POTAD (portable open-source tool (for) all-in-one development) is a small, batte
   * we could make it with a nfc card in it so it can be use to unlock like your computer
   * toutch screen
   * ngl i kinda like a keyboard that will only fold out if you need that part like the it can still be used without a num pad idk
+ ***
+ # full over view i think
+ * a form factor of a ds
+ * fold out key board
+ * it is able to do all the ide things completely interdependently
+ * battery
+ * idk if we want it to be able to like run things out side the ide or if it need to stay in the ide terminal
+ * i think we should keep all gpoi pins exposed just for fun
