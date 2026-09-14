@@ -7,7 +7,7 @@
 (lcsc preferred for any raw chips)
 
 * allwinner h616 (cpu)
-* some kind of 2gb ddr4 bga chip
+* some kind of 2gb ddr4 bga chip (micron MT53D1024M32D4DT-046 WT:D equivalent)
 * realtek rtl8211f-cg (wifi)
 * samsung klmbg2jetd-b041 (storage)
 * adafruit 2500mah lipoly
