@@ -7,6 +7,8 @@
 #include <errno.h>
 #include <sys/ioctl.h>
 #include <sys/reboot.h>
+#include <cstdlib>
+#include <signal.h>
 
 void mount_fs(const char* source, const char* target, const char* type, unsigned long flags) {
     mkdir(target, 0755);
@@ -19,7 +21,15 @@ void mount_fs(const char* source, const char* target, const char* type, unsigned
     }
 }
 
+void reap_zombies(int sig) {
+    while (waitpid(-1, nullptr, WNOHANG) > 0) {}
+}
+
 int main() {
+    setenv("PATH", "/usr/bin:/bin:/usr/sbin:/sbin", 1);
+    setenv("TERM", "linux", 1);
+    setenv("HOME", "/root", 1);
+
     std::cout << R"(
                     dP                  dP
                     88                  88
@@ -31,12 +41,22 @@ int main() {
 dP
     )" << std::endl;
 
+    // mount filesystems
     mount_fs("proc", "/proc", "proc", 0);
     mount_fs("sysfs", "/sys", "sysfs", 0);
     mount_fs("devtmpfs", "/dev", "devtmpfs", 0);
+    mount_fs("devpts", "/dev/pts", "devpts", 0);
+    mount_fs("tmpfs", "/tmp", "tmpfs", 0);
 
     sethostname("potad", 5);
 
+    // sigchild ykyk
+    struct sigaction sa{};
+    sa.sa_handler = reap_zombies;
+    sa.sa_flags = SA_RESTART | SA_NOCLDSTOP;
+    sigaction(SIGCHLD, &sa, nullptr);
+
+    // launch shell
     pid_t pid = fork();
     if (pid == 0) {
         setsid();
@@ -54,10 +74,8 @@ dP
         _exit(1);
     } else if (pid > 0) {
         int status;
-        waitpid(pid, &status, 0);
-        std::cout << "[potad init] shell exited. Powering off system...\n";
-
-        // let me exit!!!!
+        while (waitpid(pid, &status, 0) == -1 && errno == EINTR) {}
+        std::cout << "[potad init] shell exited. Powering off...\n";
         sync();
         reboot(RB_POWER_OFF);
     }
