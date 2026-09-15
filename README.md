@@ -6,8 +6,7 @@
                       88.  .88 88.  .88   88   88.  .88 88.  .88
                       88Y888P' `88888P'   dP   `88888P8 `88888P8
                       88
-                      dP
-                               the portable, open-source, tool (for) all-in-one development!
+                      dP       the portable, open-source, tool (for) all-in-one development!
 ```
 
 POTAD (portable open-source tool (for) all-in-one development) is a small, battery-powered coding machine so you can develop and code on the fly!
