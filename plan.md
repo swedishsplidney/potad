@@ -22,10 +22,10 @@
 
 | week   | swedish                                | flyingfish                                 |
 |--------|----------------------------------------|--------------------------------------------|
-| week 1 | qemu buildroot & kernel boot           | H616 SoC & power management                |
-| week 2 | passwordless login & busybox           | lpddr4 ram, storage stuff                  |
-| week 3 | nvim & git cross-compling              | 4/6 layer stackup & ram routing            |
-| week 4 | bake lazyvim plugins & configs         | complete routing, drc check & order stuff  |
+| week 1 | qemu buildroot & kernel boot           | basic 3d model / pcb                       |
+| week 2 | passwordless login & busybox           | full pcb schemadic                         |
+| week 3 | nvim & git cross-compling              | blulk of the pcb                           |
+| week 4 | bake lazyvim plugins & configs         | refine pcb and do all the checks           |
 | week 5 | device tree (.dts) layout              | case cad modeling and smd component prep   |
 | week 6 | console input matrix keymap driver     | recieve boards / solder power + SoC        |
 | week 7 | wifi stack, wpa supplicant & dhcp      | solder remaining parts, power rail testing |
