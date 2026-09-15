@@ -8,4 +8,4 @@ qemu-system-aarch64 \
     -drive file=buildroot/output/images/rootfs.ext4,if=none,format=raw,id=hd0 \
     -device virtio-blk-device,drive=hd0 \
     -nographic \
-    -append "console=ttyAMA0 root=/dev/vda rw earlycon"
+    -append "console=ttyAMA0 root=/dev/vda rw earlycon init=/sbin/potad_init"
