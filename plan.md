@@ -20,16 +20,16 @@
 
 (not final, just for reference)
 
-| week   | swedish                                | flyingfish                                 |
-|--------|----------------------------------------|--------------------------------------------|
-| week 1 | qemu buildroot & kernel boot           | basic 3d model / pcb                       |
-| week 2 | passwordless login & busybox           | full pcb schemadic                         |
-| week 3 | nvim & git cross-compling              | blulk of the pcb                           |
-| week 4 | bake lazyvim plugins & configs         | refine pcb and do all the checks           |
-| week 5 | device tree (.dts) layout              | case cad modeling and smd component prep   |
-| week 6 | console input matrix keymap driver     | recieve boards / solder power + SoC        |
+| week   | swedish                                | flyingfish                                |
+|--------|----------------------------------------|-------------------------------------------|
+| week 1 | qemu buildroot & kernel boot           | basic 3d model / pcb                      |
+| week 2 | passwordless login & busybox           | full pcb schemadic                        |
+| week 3 | nvim & git cross-compling              | bulk of the pcb                           |
+| week 4 | bake lazyvim plugins & configs         | refine pcb and do all the checks          |
+| week 5 | device tree (.dts) layout              | case cad modeling and smd component prep  |
+| week 6 | console input matrix keymap driver     | recieve boards / solder power + SoC       |
 | week 7 | wifi stack, wpa supplicant & dhcp      | solder remaining parts, power rail testing |
-| week 8 | flash sd card, test on actual hardware | assembly, testing, finalizing              |
+| week 8 | flash sd card, test on actual hardware | assembly, testing, finalizing             |
 
 
 # unknown
@@ -40,11 +40,14 @@ dont delete any questoins
 * ram?
   * i havent reaserched ram yet so idk witch ones we want
   * ik we want like 4gb ddr4
+    * A: 4GB lpddr4 (or normal ddr4 is fine too)
 * who is going to do the asitone stuff for the case
   * idk i am pretty sure swedish is printing idk
+    * A: i was planning on doing it
 * what screen do we want?
   * oled or lcd
   * we can output with the hdmi stuff, idk what he tv_out pins are or we might be able to just use gpio pins
+    * A: i think oled would be better, but an lcd would be fine, it just depends on what parts we can find
 * toutch screen?
   * toutch pad 
   * we could do a mouse
