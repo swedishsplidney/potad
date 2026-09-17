@@ -31,7 +31,7 @@ void reap_zombies(int sig) {
 }
 
 void handle_shutdown_signal(int sig) {
-    if (sig == SIGUSR1) {
+    if (sig == SIGUSR1 || sig == SIGPWR) {
         g_shutdown_cmd = RB_POWER_OFF;
     } else if (sig == SIGTERM || sig == SIGINT) {
         g_shutdown_cmd = RB_AUTOBOOT;
@@ -54,15 +54,8 @@ void setup_loopback() {
 }
 
 void setup_hotplug() {
-    int fd = open("/proc/sys/kernel/hotplug", O_WRONLY);
-    if (fd >= 0) {
-        const char* helper = "/sbin/mdev\n";
-        write(fd, helper, strlen(helper));
-        close(fd);
-    }
-
     if (access("/sbin/mdev", X_OK) == 0) {
-        std::cout << "[potad init] initializing device nodes with mdev...\n";
+        std::cout << "[potad init] populating initial device nodes with mdev...\n";
         pid_t pid = fork();
         if (pid == 0) {
             char* const args[] = {(char*)"/sbin/mdev", (char*)"-s", nullptr};
@@ -102,7 +95,6 @@ int main() {
 dP
     )" << std::endl;
 
-    // mount fs
     mount_fs("proc", "/proc", "proc", 0);
     mount_fs("sysfs", "/sys", "sysfs", 0);
     mount_fs("devtmpfs", "/dev", "devtmpfs", 0);
@@ -121,34 +113,31 @@ dP
     sa_shut.sa_handler = handle_shutdown_signal;
     sigaction(SIGUSR1, &sa_shut, nullptr);
     sigaction(SIGTERM, &sa_shut, nullptr);
+    sigaction(SIGPWR, &sa_shut, nullptr);
 
-    // system init
     setup_loopback();
     setup_hotplug();
     run_script_async("/etc/rc.local");
 
-    // shell supervise
-    while (g_shutdown_cmd == 0) {
-        pid_t pid = fork();
-        if (pid == 0) {
-            setsid();
-            int fd = open("/dev/console", O_RDWR);
-            if (fd >= 0) {
-                dup2(fd, 0);
-                dup2(fd, 1);
-                dup2(fd, 2);
-                ioctl(fd, TIOCSCTTY, 0);
-                if (fd > 2) close(fd);
-            }
+    pid_t pid = fork();
+    if (pid == 0) {
+        setsid();
+        int fd = open("/dev/console", O_RDWR);
+        if (fd >= 0) {
+            dup2(fd, 0);
+            dup2(fd, 1);
+            dup2(fd, 2);
+            ioctl(fd, TIOCSCTTY, 0);
+            if (fd > 2) close(fd);
+        }
 
-            char* const args[] = {(char*)"/bin/sh", nullptr};
-            execv("/bin/sh", args);
-            _exit(1);
-        } else if (pid > 0) {
-            int status;
-            while (waitpid(pid, &status, 0) == -1 && errno == EINTR) {
-                if (g_shutdown_cmd != 0) break;
-            }
+        char* const args[] = {(char*)"/bin/sh", nullptr};
+        execv("/bin/sh", args);
+        _exit(1);
+    } else if (pid > 0) {
+        int status;
+        while (waitpid(pid, &status, 0) == -1 && errno == EINTR) {
+            if (g_shutdown_cmd != 0) break;
         }
     }
 
