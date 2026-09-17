@@ -7,7 +7,7 @@
 (lcsc preferred for any raw chips)
 
 * allwinner h616 (cpu)
-* some kind of 32gbit (4GB) lpddr4 bga chip (micron MT53D1024M32D4DT-046 WT:D equivalent)
+* MTFC32GAZAQHD-IT
 * realtek rtl8211f-cg (wifi)
 * samsung klmbg2jetd-b041 (storage)
 * adafruit 2500mah lipoly
@@ -30,3 +30,22 @@
 | week 6 | console input matrix keymap driver     | recieve boards / solder power + SoC        |
 | week 7 | wifi stack, wpa supplicant & dhcp      | solder remaining parts, power rail testing |
 | week 8 | flash sd card, test on actual hardware | assembly, testing, finalizing              |
+
+
+# unknown
+dont delete any questoins
+* storage?
+  * 1gb emmc and a 128gb sd card
+  * 32 emmc and a sd card slot just not the main thing
+* ram?
+  * i havent reaserched ram yet so idk witch ones we want
+  * ik we want like 4gb ddr4
+* who is going to do the asitone stuff for the case
+  * idk i am pretty sure swedish is printing idk
+* what screen do we want?
+  * oled or lcd
+  * we can output with the hdmi stuff, idk what he tv_out pins are or we might be able to just use gpio pins
+* toutch screen?
+  * toutch pad 
+  * we could do a mouse
+  * we could like not have a mouse or cursor at all idk
