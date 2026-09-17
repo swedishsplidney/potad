@@ -102,6 +102,7 @@ int main() {
 dP
     )" << std::endl;
 
+    // mount fs
     mount_fs("proc", "/proc", "proc", 0);
     mount_fs("sysfs", "/sys", "sysfs", 0);
     mount_fs("devtmpfs", "/dev", "devtmpfs", 0);
