@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# get ip via dhcp
+if [ -x /sbin/udhcpc ]; then
+    echo "[rc.local] starting DHCP client on eth0..."
+    udhcpc -i eth0 -b -s /usr/share/udhcpc/default.script &
+fi
+
+mdev -d &
