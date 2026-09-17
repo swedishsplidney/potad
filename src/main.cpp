@@ -53,16 +53,35 @@ void setup_loopback() {
     close(sock);
 }
 
-void run_script(const char* path) {
+void setup_hotplug() {
+    int fd = open("/proc/sys/kernel/hotplug", O_WRONLY);
+    if (fd >= 0) {
+        const char* helper = "/sbin/mdev\n";
+        write(fd, helper, strlen(helper));
+        close(fd);
+    }
+
+    if (access("/sbin/mdev", X_OK) == 0) {
+        std::cout << "[potad init] initializing device nodes with mdev...\n";
+        pid_t pid = fork();
+        if (pid == 0) {
+            char* const args[] = {(char*)"/sbin/mdev", (char*)"-s", nullptr};
+            execv("/sbin/mdev", args);
+            _exit(1);
+        } else if (pid > 0) {
+            waitpid(pid, nullptr, 0);
+        }
+    }
+}
+
+void run_script_async(const char* path) {
     if (access(path, X_OK) == 0) {
-        std::cout << "[potad init] running " << path << "...\n";
+        std::cout << "[potad init] launching " << path << " in background...\n";
         pid_t pid = fork();
         if (pid == 0) {
             char* const args[] = {(char*)path, nullptr};
             execv(path, args);
             _exit(1);
-        } else if (pid > 0) {
-            waitpid(pid, nullptr, 0);
         }
     }
 }
@@ -83,7 +102,6 @@ int main() {
 dP
     )" << std::endl;
 
-    // mount filesystems
     mount_fs("proc", "/proc", "proc", 0);
     mount_fs("sysfs", "/sys", "sysfs", 0);
     mount_fs("devtmpfs", "/dev", "devtmpfs", 0);
@@ -103,11 +121,12 @@ dP
     sigaction(SIGUSR1, &sa_shut, nullptr);
     sigaction(SIGTERM, &sa_shut, nullptr);
 
-    // init networking
+    // system init
     setup_loopback();
-    run_script("/etc/rc.local");
+    setup_hotplug();
+    run_script_async("/etc/rc.local");
 
-    // shell supervising
+    // shell supervise
     while (g_shutdown_cmd == 0) {
         pid_t pid = fork();
         if (pid == 0) {
