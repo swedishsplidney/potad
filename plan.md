@@ -7,6 +7,7 @@
 (lcsc preferred for any raw chips)
 
 * allwinner h616 (cpu)
+* oled i2c 80mm x 160mm toutch screen
 * MTFC32GAZAQHD-IT
 * realtek rtl8211f-cg (wifi)
 * samsung klmbg2jetd-b041 (storage)
