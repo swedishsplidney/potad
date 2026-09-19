@@ -52,7 +52,9 @@ dP
     while (g_shutdown_cmd == 0) {
         run_shell_session();
         if (g_shutdown_cmd == 0) {
-            std::cout << "shell exited, restarting shell...\n";
+            std::cout << "shell exited, powering off...\n";
+            g_shutdown_cmd = RB_POWER_OFF;
+            break;
         }
     }
 
