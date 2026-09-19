@@ -79,6 +79,25 @@ void run_script_async(const char* path) {
     }
 }
 
+void graceful_shutdown() {
+    std::cout << "sending sigterm to all processes...\n";
+    kill (-1, SIGTERM);
+    usleep(100000); // 100ms (i think) grace period, increase if programs take a little longer to sigterm :)
+
+    std::cout << "sending sigkill to all processes...\n";
+    kill(-1, SIGKILL);
+
+    std::cout << "syncing filesystems...\n";
+
+    // unmount fs
+    umount2("/run", MNT_DETACH);
+    umount2("/tmp", MNT_DETACH);
+    umount2("/dev/pts", MNT_DETACH);
+    umount2("/dev", MNT_DETACH);
+    umount2("/sys", MNT_DETACH);
+    umount2("/proc", MNT_DETACH);
+}
+
 int main() {
     setenv("PATH", "/usr/bin:/bin:/usr/sbin:/sbin", 1);
     setenv("TERM", "linux", 1);
@@ -119,30 +138,36 @@ dP
     setup_hotplug();
     run_script_async("/etc/rc.local");
 
-    pid_t pid = fork();
-    if (pid == 0) {
-        setsid();
-        int fd = open("/dev/console", O_RDWR);
-        if (fd >= 0) {
-            dup2(fd, 0);
-            dup2(fd, 1);
-            dup2(fd, 2);
-            ioctl(fd, TIOCSCTTY, 0);
-            if (fd > 2) close(fd);
-        }
+    // shell loop
+    while (g_shutdown_cmd == 0) {
+        pid_t pid = fork();
+        if (pid == 0) {
+            setsid();
+            int fd = open("/dev/console", O_RDWR);
+            if (fd >= 0) {
+                dup2(fd, 0);
+                dup2(fd, 1);
+                dup2(fd, 2);
+                ioctl(fd, TIOCSCTTY, 0);
+                if (fd > 2) close(fd);
+            }
 
-        char* const args[] = {(char*)"/bin/sh", nullptr};
-        execv("/bin/sh", args);
-        _exit(1);
-    } else if (pid > 0) {
-        int status;
-        while (waitpid(pid, &status, 0) == -1 && errno == EINTR) {
-            if (g_shutdown_cmd != 0) break;
+            char* const args[] = {(char*)"/bin/sh", nullptr};
+            execv("/bin/sh", args);
+            _exit(1);
+        } else if (pid > 0) {
+            int status;
+            while (waitpid(pid, &status, 0) == -1 && errno == EINTR) {
+                if (g_shutdown_cmd != 0) break;
+            }
+            if (g_shutdown_cmd == 0) {
+                std::cout << "shell exited, shutting down...\n";
+                break;
+            }
         }
     }
 
-    std::cout << "[potad init] powering off system...\n";
-    sync();
+    graceful_shutdown();
     reboot(g_shutdown_cmd ? g_shutdown_cmd : RB_POWER_OFF);
     return 0;
 }
