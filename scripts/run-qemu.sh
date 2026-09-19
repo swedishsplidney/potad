@@ -10,5 +10,5 @@ qemu-system-aarch64 \
     -device virtio-keyboard-pci \
     -device virtio-mouse-pci \
     -display default,gl=on \
-    -serial stdio \
+    -serial mon:stdio \
     -append "console=ttyAMA0 root=/dev/vda rw earlycon init=/sbin/potad_init"
