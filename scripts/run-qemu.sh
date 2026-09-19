@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 qemu-system-aarch64 \
     -M virt \
     -cpu cortex-a53 \
@@ -7,5 +6,9 @@ qemu-system-aarch64 \
     -kernel buildroot/output/images/Image \
     -drive file=buildroot/output/images/rootfs.ext4,if=none,format=raw,id=hd0 \
     -device virtio-blk-device,drive=hd0 \
-    -nographic \
+    -device virtio-gpu-gl-pci \
+    -device virtio-keyboard-pci \
+    -device virtio-mouse-pci \
+    -display default,gl=on \
+    -serial stdio \
     -append "console=ttyAMA0 root=/dev/vda rw earlycon init=/sbin/potad_init"
