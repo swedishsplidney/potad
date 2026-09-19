@@ -11,7 +11,7 @@
 * MTFC32GAZAQHD-IT
 * realtek rtl8211f-cg (wifi)
 * samsung klmbg2jetd-b041 (storage)
-* adafruit 2500mah lipoly
+* 5000mah lipo
 * adafruit micro-lipo charger for lipoly battery (also functions as usbc data breakout)
 * asa 3dp filament
 

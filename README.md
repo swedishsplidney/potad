@@ -1,4 +1,4 @@
-<p align="center">
+<h align="center">
 
 ```text
                     dP                  dP
@@ -11,7 +11,7 @@
 dP       portable, open-source, tool (for) all-in-one development!
 ```
 
-</p>
+</h>
 
 POTAD (portable open-source tool (for) all-in-one development) is a small, battery-powered coding machine so you can develop and code on the fly!
 
@@ -32,6 +32,35 @@ it runs a custom linux-based distro designed using buildroot for lightweight eff
 
 ---
 
+# hardware specs:
+
+* allwinner h616
+* 4gb lpddr4
+* 160x80mm oled touchscreen
+* 32gb emmc + sd card slot
+* custom collapsing mechanical keyboard
+* 5000mah lipo battery
+* wifi, usbc, usb, exposed gpio
+* asa 3d printed shell
+
+hardware design led by FlyingFish
+
+---
+
+# software specs:
+
+* buildroot-generated aarch64 linux kernel
+* custom c++ pid 1 process manager
+* busybox shell
+* virtual filesystems
+* cross-compiled neovim, git, make and more
+* dhcp network integration
+* graceful shutdown (`exit`)
+
+software development led by SwedishSplidney
+
+---
+
 # build and run:
 
 no pre-prepared `.iso` files are available yet, but you can run it locally:
@@ -39,12 +68,20 @@ no pre-prepared `.iso` files are available yet, but you can run it locally:
 ```bash
 # build
 mkdir -p build && cd build
-cmake..
+cmake ..
 cmake
 
 # trigger the qemu run script
 ./scripts/run-qemu.sh
 ```
+
+---
+
+# license
+
+potad is licenced under the gplv3 licence
+
+check out `LICENCE.md` for more information
 
 ---
 
