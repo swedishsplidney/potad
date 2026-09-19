@@ -14,7 +14,7 @@ volatile sig_atomic_t g_shutdown_cmd = 0;
 void handle_shutdown_signal(int sig) {
     if (sig == SIGUSR1 || sig == SIGPWR) {
         g_shutdown_cmd = RB_POWER_OFF;
-    } else if (sig == SIGTERM || sig == SIGINT) {
+    } else if (sig == SIGTERM) {
         g_shutdown_cmd = RB_AUTOBOOT;
     }
 }
