@@ -53,3 +53,4 @@ dont delete any questoins
   * toutch pad 
   * we could do a mouse
   * we could like not have a mouse or cursor at all idk
+  * yeah, i mean nvim functions entirely without a cursor, so as long as we stick to gui tools then we should be able to go completely without a cursor
