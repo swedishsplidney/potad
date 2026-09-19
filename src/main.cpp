@@ -1,102 +1,11 @@
+#include "fs.hpp"
+#include "sys.hpp"
+#include "process.hpp"
 #include <iostream>
-#include <sys/mount.h>
-#include <sys/stat.h>
 #include <unistd.h>
-#include <sys/wait.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <sys/ioctl.h>
-#include <sys/reboot.h>
 #include <cstdlib>
-#include <signal.h>
-#include <net/if.h>
-#include <sys/socket.h>
-#include <cstring>
-
-static volatile sig_atomic_t g_shutdown_cmd = 0;
-
-void mount_fs(const char* source, const char* target, const char* type, unsigned long flags) {
-    mkdir(target, 0755);
-    if (mount(source, target, type, flags, nullptr) == 0) {
-        std::cout << "[potad init] mounted " << target << "\n";
-    } else if (errno == EBUSY) {
-        std::cout << "[potad init] " << target << " already mounted\n";
-    } else {
-        perror("[potad init] failed to mount");
-    }
-}
-
-void reap_zombies(int sig) {
-    while (waitpid(-1, nullptr, WNOHANG) > 0) {}
-}
-
-void handle_shutdown_signal(int sig) {
-    if (sig == SIGUSR1 || sig == SIGPWR) {
-        g_shutdown_cmd = RB_POWER_OFF;
-    } else if (sig == SIGTERM || sig == SIGINT) {
-        g_shutdown_cmd = RB_AUTOBOOT;
-    }
-}
-
-void setup_loopback() {
-    int sock = socket(AF_INET, SOCK_DGRAM, 0);
-    if (sock < 0) return;
-
-    struct ifreq ifr{};
-    strncpy(ifr.ifr_name, "lo", IFNAMSIZ - 1);
-    if (ioctl(sock, SIOCGIFFLAGS, &ifr) == 0) {
-        ifr.ifr_flags |= IFF_UP | IFF_RUNNING;
-        if (ioctl(sock, SIOCSIFFLAGS, &ifr) == 0) {
-            std::cout << "[potad init] brought up lo network interface\n";
-        }
-    }
-    close(sock);
-}
-
-void setup_hotplug() {
-    if (access("/sbin/mdev", X_OK) == 0) {
-        std::cout << "[potad init] populating initial device nodes with mdev...\n";
-        pid_t pid = fork();
-        if (pid == 0) {
-            char* const args[] = {(char*)"/sbin/mdev", (char*)"-s", nullptr};
-            execv("/sbin/mdev", args);
-            _exit(1);
-        } else if (pid > 0) {
-            waitpid(pid, nullptr, 0);
-        }
-    }
-}
-
-void run_script_async(const char* path) {
-    if (access(path, X_OK) == 0) {
-        std::cout << "[potad init] launching " << path << " in background...\n";
-        pid_t pid = fork();
-        if (pid == 0) {
-            char* const args[] = {(char*)path, nullptr};
-            execv(path, args);
-            _exit(1);
-        }
-    }
-}
-
-void graceful_shutdown() {
-    std::cout << "sending sigterm to all processes...\n";
-    kill (-1, SIGTERM);
-    usleep(100000); // 100ms (i think) grace period, increase if programs take a little longer to sigterm :)
-
-    std::cout << "sending sigkill to all processes...\n";
-    kill(-1, SIGKILL);
-
-    std::cout << "syncing filesystems...\n";
-
-    // unmount fs
-    umount2("/run", MNT_DETACH);
-    umount2("/tmp", MNT_DETACH);
-    umount2("/dev/pts", MNT_DETACH);
-    umount2("/dev", MNT_DETACH);
-    umount2("/sys", MNT_DETACH);
-    umount2("/proc", MNT_DETACH);
-}
+#include <csignal>
+#include <sys/reboot.h>
 
 int main() {
     setenv("PATH", "/usr/bin:/bin:/usr/sbin:/sbin", 1);
@@ -138,32 +47,11 @@ dP
     setup_hotplug();
     run_script_async("/etc/rc.local");
 
-    // shell loop
     while (g_shutdown_cmd == 0) {
-        pid_t pid = fork();
-        if (pid == 0) {
-            setsid();
-            int fd = open("/dev/console", O_RDWR);
-            if (fd >= 0) {
-                dup2(fd, 0);
-                dup2(fd, 1);
-                dup2(fd, 2);
-                ioctl(fd, TIOCSCTTY, 0);
-                if (fd > 2) close(fd);
-            }
-
-            char* const args[] = {(char*)"/bin/sh", nullptr};
-            execv("/bin/sh", args);
-            _exit(1);
-        } else if (pid > 0) {
-            int status;
-            while (waitpid(pid, &status, 0) == -1 && errno == EINTR) {
-                if (g_shutdown_cmd != 0) break;
-            }
-            if (g_shutdown_cmd == 0) {
-                std::cout << "shell exited, shutting down...\n";
-                break;
-            }
+        run_shell_session();
+        if (g_shutdown_cmd == 0) {
+            std::cout << "shell exited, shutting down...\n";
+            break;
         }
     }
 
