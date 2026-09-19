@@ -36,7 +36,7 @@ void run_shell_session() {
             if (fd > 2) close(fd);
         }
 
-        char* const args[] = {(char*)"/bin/sh", nullptr};
+        char* const args[] = {(char*)"/bin/sh", (char*)"-i", nullptr};
         execv("/bin/sh", args);
         _exit(1);
     } else if (pid > 0) {

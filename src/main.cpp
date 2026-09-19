@@ -32,6 +32,8 @@ dP
 
     sethostname("potad", 5);
 
+    signal(SIGINT, SIG_IGN);
+
     struct sigaction sa_chld{};
     sa_chld.sa_handler = reap_zombies;
     sa_chld.sa_flags = SA_RESTART | SA_NOCLDSTOP;
@@ -50,8 +52,7 @@ dP
     while (g_shutdown_cmd == 0) {
         run_shell_session();
         if (g_shutdown_cmd == 0) {
-            std::cout << "shell exited, shutting down...\n";
-            break;
+            std::cout << "shell exited, restarting shell...\n";
         }
     }
 
