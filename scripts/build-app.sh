@@ -1,24 +1,30 @@
 #!/usr/bin/env bash
 set -e
 
-if [ ! -d "buildroot" ]; then
-  echo "[+] cloning Buildroot..."
-  git clone --depth 1 https://gitlab.com/buildroot.org/buildroot.git buildroot
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
 
-  echo "[+] applying Buildroot configuration..."
-  make -C buildroot defconfig BR2_DEFCONFIG=../configs/potad_qemu_defconfig
+if [ ! -f "buildroot/Makefile" ]; then
+  echo "[+] cloning buildroot..."
+  rm -rf buildroot
+  git clone --depth 1 https://gitlab.com/buildroot.org/buildroot.git buildroot
+fi
+
+if [ ! -f "buildroot/.config" ]; then
+  echo "[+] applying buildroot configuration..."
+  make -C buildroot defconfig BR2_DEFCONFIG="$ROOT_DIR/configs/potad_qemu_defconfig"
 fi
 
 TOOLCHAIN="buildroot/output/host/bin/aarch64-buildroot-linux-gnu-g++"
 
 if [ ! -f "$TOOLCHAIN" ]; then
-  echo "[+] building Buildroot ARM64 toolchain"
+  echo "[+] building buildroot ARM64 toolchain..."
   make -C buildroot toolchain
 fi
 
 mkdir -p board/qemu_aarch64/rootfs_overlay/sbin
 
-echo "[+] compiling potad with Buildroot toolchain..."
+echo "[+] compiling potad with buildroot toolchain..."
 $TOOLCHAIN -O2 -std=c++17 -static \
     -Iinclude \
     src/main.cpp \
