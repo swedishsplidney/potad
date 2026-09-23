@@ -2,32 +2,24 @@
 set -e
 
 if [ ! -d "buildroot" ]; then
-  echo "cloning Buildroot..."
+  echo "[+] cloning Buildroot..."
   git clone --depth 1 https://gitlab.com/buildroot.org/buildroot.git buildroot
 
   echo "[+] applying Buildroot configuration..."
   make -C buildroot defconfig BR2_DEFCONFIG=../configs/potad_qemu_defconfig
 fi
 
-mkdir -p board/qemu_aarch64/rootfs_overlay/sbin
+TOOLCHAIN="buildroot/output/host/bin/aarch64-buildroot-linux-gnu-g++"
 
-# select available compiler
-if [ -f "buildroot/output/host/bin/aarch64-buildroot-linux-gnu-g++" ]; then
-  CXX="buildroot/output/host/bin/aarch64-buildroot-linux-gnu-g++"
-elif command -v aarch64-linux-gnu-g++ >/dev/null 2>&1; then
-  CXX="aarch64-linux-gnu-g++"
-else
-  echo "[-] error: No ARM64 cross-compiler found."
-  echo "    please install g++-aarch64-linux-gnu on your host machine:"
-  echo "    Ubuntu/Debian: sudo apt install g++-aarch64-linux-gnu"
-  echo "    Fedora: sudo dnf install gcc-c++-aarch64-linux-gnu"
-  echo "    Arch: sudo pacman -S aarch64-linux-gnu-gcc"
-  exit 1
+if [ ! -f "$TOOLCHAIN" ]; then
+  echo "[+] building Buildroot ARM64 toolchain"
+  make -C buildroot toolchain
 fi
 
-echo "[+] using compiler: $CXX"
+mkdir -p board/qemu_aarch64/rootfs_overlay/sbin
 
-$CXX -O2 -std=c++17 -static \
+echo "[+] compiling potad with Buildroot toolchain..."
+$TOOLCHAIN -O2 -std=c++17 -static \
     -Iinclude \
     src/main.cpp \
     src/fs.cpp \
