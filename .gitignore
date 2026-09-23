@@ -71,5 +71,9 @@ Testing/
 # buildroot stuff
 buildroot/output/
 buildroot/dl/
-buildroot/.config
-buildroot/.config.old
+buildroot/build/
+buildroot/
+release-assets/
+*.ext2
+*.ext4
+Image
