@@ -1,0 +1,11 @@
+FILE_TYPE = MULTI_PHYS_TABLE;
+
+PART 'H616'
+CLASS = IC
+{========================================================================================}
+:"MANUFACTURER_NAME", "MANUFACTURER_PART_NUMBER"= "PART_NUMBER", "JEDEC_TYPE", "PACK_TYPE", "MOUSER_PART_NUMBER", "MOUSER_PRICE/STOCK", "ARROW_PART_NUMBER", "ARROW_PRICE/STOCK", "DESCRIPTION", "DATASHEET", "HEIGHT";
+{========================================================================================}
+ "Allwinner Technology", "H616" (!) = "", "BGA284C65P21X18_1400X1200X133", "BGA", "", "", "", "", "SOC QUAD CORE A53 TFBGA284", "https://linux-sunxi.org/images/b/b9/H616_Datasheet_V1.0_cleaned.pdf", "1.33 mm"
+END_PART
+
+END.

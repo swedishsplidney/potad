@@ -1,0 +1,11 @@
+FILE_TYPE = MULTI_PHYS_TABLE;
+
+PART 'MTFC32GAZAQHD_IT'
+CLASS = IC
+{========================================================================================}
+:"MANUFACTURER_NAME", "MANUFACTURER_PART_NUMBER"= "PART_NUMBER", "JEDEC_TYPE", "PACK_TYPE", "MOUSER_PART_NUMBER", "MOUSER_PRICE/STOCK", "ARROW_PART_NUMBER", "ARROW_PRICE/STOCK", "DESCRIPTION", "DATASHEET", "HEIGHT";
+{========================================================================================}
+ "Micron", "MTFC32GAZAQHD-IT" (!) = "", "BGA153C50P14X14_1150X1300X90", "BGA", "340-505444-TRAY", "https://www.mouser.co.uk/ProductDetail/Micron/MTFC32GAZAQHD-IT?qs=KUoIvG%2F9IlZ%252Bsv3yufc3Aw%3D%3D", "MTFC32GAZAQHD-IT", "https://www.arrow.com/en/products/mtfc32gazaqhd-it/micron-technology?utm_currency=USD&region=nac", "eMMC eMMC 256G", "https://www.farnell.com/datasheets/3542647.pdf", "0.9 mm"
+END_PART
+
+END.

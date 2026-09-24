@@ -1,0 +1,11 @@
+FILE_TYPE = MULTI_PHYS_TABLE;
+
+PART 'RTL8723DS_CG'
+CLASS = IC
+{========================================================================================}
+:"MANUFACTURER_NAME", "MANUFACTURER_PART_NUMBER"= "PART_NUMBER", "JEDEC_TYPE", "PACK_TYPE", "MOUSER_PART_NUMBER", "MOUSER_PRICE/STOCK", "ARROW_PART_NUMBER", "ARROW_PRICE/STOCK", "DESCRIPTION", "DATASHEET", "HEIGHT";
+{========================================================================================}
+ "Realtek", "RTL8723DS-CG" (!) = "", "QFN40P600X600X100-49N", "Quad Flat No-Lead", "", "", "", "", "WQFN-48-EP(6x6) RF Transceiver ICs ROHS", "https://mangopi.org/_media/rtl8723ds-cg_datasheet_0.92_20170804.pdf", "1 mm"
+END_PART
+
+END.

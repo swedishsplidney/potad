@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP MTFC32GAZAQHD-IT
+D eMMC eMMC 256G
+K
+F https://www.farnell.com/datasheets/3542647.pdf
+$ENDCMP
+#
+#End Doc Library

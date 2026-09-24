@@ -1,0 +1,13 @@
+(unit MM)
+
+(package "H616"
+    (type UNDEF)
+    (uver 2)
+    (cuser "SamacSys")
+    (uuser "SamacSys")
+    (utime 2022-08-06-08:16:42)
+    (mountForm default
+        (footprintRef "BGA284C65P21X18_1400X1200X133")
+        (spec "System")
+    )
+)

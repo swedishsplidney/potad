@@ -1,0 +1,9 @@
+Manufacturer=Micron
+PartNumber=MTFC32GAZAQHD-IT
+PartCategory=Integrated Circuit
+PackageCategory=BGA
+PinCount=153
+Version=1.1
+Released=2021-10-26 11:08:13
+Downloaded=2026-09-17 16:34:11
+3D=Y

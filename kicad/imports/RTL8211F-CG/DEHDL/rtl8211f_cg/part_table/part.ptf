@@ -1,0 +1,11 @@
+FILE_TYPE = MULTI_PHYS_TABLE;
+
+PART 'RTL8211F_CG'
+CLASS = IC
+{========================================================================================}
+:"MANUFACTURER_NAME", "MANUFACTURER_PART_NUMBER"= "PART_NUMBER", "JEDEC_TYPE", "PACK_TYPE", "MOUSER_PART_NUMBER", "MOUSER_PRICE/STOCK", "ARROW_PART_NUMBER", "ARROW_PRICE/STOCK", "DESCRIPTION", "DATASHEET", "HEIGHT";
+{========================================================================================}
+ "Realtek", "RTL8211F-CG" (!) = "", "QFN40P500X500X90-41N-D", "Quad Flat No-Lead", "", "", "", "", "NTEGRATED 10/100/1000M ETHERNET TRANSCEIVER", "", "0.9 mm"
+END_PART
+
+END.

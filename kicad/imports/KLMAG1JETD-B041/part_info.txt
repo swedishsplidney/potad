@@ -1,0 +1,9 @@
+Manufacturer=SAMSUNG
+PartNumber=KLMAG1JETD-B041
+PartCategory=Integrated Circuit
+PackageCategory=BGA
+PinCount=153
+Version=1.1
+Released=2022-08-16 10:19:40
+Downloaded=2026-09-22 21:58:00
+3D=Y

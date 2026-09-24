@@ -1,0 +1,13 @@
+(unit MM)
+
+(package "MTFC32GAZAQHD-IT"
+    (type UNDEF)
+    (uver 2)
+    (cuser "SamacSys")
+    (uuser "SamacSys")
+    (utime 2021-10-26-11:08:13)
+    (mountForm default
+        (footprintRef "BGA153C50P14X14_1150X1300X90")
+        (spec "System")
+    )
+)

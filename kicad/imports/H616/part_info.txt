@@ -1,0 +1,9 @@
+Manufacturer=Allwinner Technology
+PartNumber=H616
+PartCategory=Integrated Circuit
+PackageCategory=BGA
+PinCount=284
+Version=1.1
+Released=2022-08-06 08:16:42
+Downloaded=2026-09-16 19:54:51
+3D=Y

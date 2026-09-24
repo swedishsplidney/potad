@@ -78,5 +78,8 @@ release-assets/
 *.ext4
 Image
 
+buildroot/.config
+buildroot/.config.old
+
 # kicad
 *.history

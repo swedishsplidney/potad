@@ -1,0 +1,11 @@
+FILE_TYPE = MULTI_PHYS_TABLE;
+
+PART 'TFP401PZP'
+CLASS = IC
+{========================================================================================}
+:"MANUFACTURER_NAME", "MANUFACTURER_PART_NUMBER"= "PART_NUMBER", "JEDEC_TYPE", "PACK_TYPE", "MOUSER_PART_NUMBER", "MOUSER_PRICE/STOCK", "ARROW_PART_NUMBER", "ARROW_PRICE/STOCK", "DESCRIPTION", "DATASHEET", "HEIGHT";
+{========================================================================================}
+ "Texas Instruments", "TFP401PZP" (!) = "", "QFP50P1600X1600X120-101N", "Quad Flat Packages", "595-TFP401PZP", "https://www.mouser.co.uk/ProductDetail/Texas-Instruments/TFP401PZP?qs=bvCpHSZmQjmzyJ9p8ABYPA%3D%3D", "TFP401PZP", "https://www.arrow.com/en/products/tfp401pzp/texas-instruments?utm_currency=USD&region=nac", "165-MHz TMDS DVI receiver/deserializer & Panelbus integrated circuit", "http://www.ti.com/lit/gpn/tfp401", "1.2 mm"
+END_PART
+
+END.

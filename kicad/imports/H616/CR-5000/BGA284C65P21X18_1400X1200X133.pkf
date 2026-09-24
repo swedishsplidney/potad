@@ -1,0 +1,10 @@
+(unit MM)
+
+(package "BGA284C65P21X18_1400X1200X133"
+    (type UNDEF)
+    (uver 2)
+    (mountForm default
+        (footprintRef "BGA284C65P21X18_1400X1200X133")
+        (spec "default")
+    )
+)

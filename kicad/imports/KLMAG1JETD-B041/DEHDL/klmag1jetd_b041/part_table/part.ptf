@@ -1,0 +1,11 @@
+FILE_TYPE = MULTI_PHYS_TABLE;
+
+PART 'KLMAG1JETD_B041'
+CLASS = IC
+{========================================================================================}
+:"MANUFACTURER_NAME", "MANUFACTURER_PART_NUMBER"= "PART_NUMBER", "JEDEC_TYPE", "PACK_TYPE", "MOUSER_PART_NUMBER", "MOUSER_PRICE/STOCK", "ARROW_PART_NUMBER", "ARROW_PRICE/STOCK", "DESCRIPTION", "DATASHEET", "HEIGHT";
+{========================================================================================}
+ "SAMSUNG", "KLMAG1JETD-B041" (!) = "", "BGA153C50P14X14_1150X1300X80", "BGA", "", "", "", "", "INSTOCK", "https://datasheet.lcsc.com/lcsc/2007011825_Samsung-KLMAG1JETD-B041_C499919.pdf", "0.8 mm"
+END_PART
+
+END.

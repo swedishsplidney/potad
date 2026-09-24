@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP RTL8723DS-CG
+D WQFN-48-EP(6x6) RF Transceiver ICs ROHS
+K
+F https://mangopi.org/_media/rtl8723ds-cg_datasheet_0.92_20170804.pdf
+$ENDCMP
+#
+#End Doc Library

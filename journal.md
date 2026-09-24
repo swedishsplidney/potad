@@ -9,3 +9,11 @@
 * 9/17
   * i finish the emmc storage 
   * my computer crashed and it did not save :(
+* 9/22
+  * i did a ton of reasurech (not on lapse) and found that micron is actualy not makeing stuff anymore
+  * i switched the emmc to a chip that is acutaly manufactured
+  * i wired the wifi chip
+  * i wired like 3/4 of the ram
+* 9/23
+  * i wired all the ram
+  * i made the most of the hdmi to 40pin stuff
