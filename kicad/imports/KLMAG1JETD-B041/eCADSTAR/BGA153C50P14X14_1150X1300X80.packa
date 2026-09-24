@@ -1,0 +1,13 @@
+(unit MM)
+
+(package "KLMAG1JETD-B041"
+    (type UNDEF)
+    (uver 2)
+    (cuser "SamacSys")
+    (uuser "SamacSys")
+    (utime 2022-08-16-10:19:40)
+    (mountForm default
+        (footprintRef "BGA153C50P14X14_1150X1300X80")
+        (spec "System")
+    )
+)

@@ -1,0 +1,13 @@
+(unit MM)
+
+(package "RTL8723DS-CG"
+    (type UNDEF)
+    (uver 2)
+    (cuser "SamacSys")
+    (uuser "SamacSys")
+    (utime 2024-08-26-03:47:50)
+    (mountForm default
+        (footprintRef "QFN40P600X600X100-49N")
+        (spec "System")
+    )
+)

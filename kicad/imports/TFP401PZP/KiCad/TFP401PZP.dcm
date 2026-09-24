@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP TFP401PZP
+D 165-MHz TMDS DVI receiver/deserializer & Panelbus integrated circuit
+K
+F http://www.ti.com/lit/gpn/tfp401
+$ENDCMP
+#
+#End Doc Library

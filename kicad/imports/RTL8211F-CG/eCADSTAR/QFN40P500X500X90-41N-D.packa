@@ -1,0 +1,13 @@
+(unit MM)
+
+(package "RTL8211F-CG"
+    (type UNDEF)
+    (uver 2)
+    (cuser "SamacSys")
+    (uuser "SamacSys")
+    (utime 2019-09-20-12:23:25)
+    (mountForm default
+        (footprintRef "QFN40P500X500X90-41N-D")
+        (spec "System")
+    )
+)

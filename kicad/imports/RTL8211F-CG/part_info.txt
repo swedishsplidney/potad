@@ -1,0 +1,9 @@
+Manufacturer=Realtek
+PartNumber=RTL8211F-CG
+PartCategory=Integrated Circuit
+PackageCategory=Quad Flat No-Lead
+PinCount=41
+Version=1.1
+Released=2019-09-20 12:23:25
+Downloaded=2026-09-22 22:58:29
+3D=Y

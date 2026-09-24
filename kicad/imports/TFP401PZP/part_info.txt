@@ -1,0 +1,9 @@
+Manufacturer=Texas Instruments
+PartNumber=TFP401PZP
+PartCategory=Integrated Circuit
+PackageCategory=Quad Flat Packages
+PinCount=101
+Version=2.1
+Released=2021-01-25 06:41:47
+Downloaded=2026-09-23 22:05:52
+3D=Y
