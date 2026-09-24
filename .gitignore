@@ -77,3 +77,6 @@ release-assets/
 *.ext2
 *.ext4
 Image
+
+# kicad
+*.history
