@@ -33,4 +33,16 @@ $TOOLCHAIN -O2 -std=c++17 -static \
     src/process.cpp \
     -o board/qemu_aarch64/rootfs_overlay/sbin/potad_init
 
+
+# lazyvim
+LAZYVIM_DIR="board/qemu_aarch64/rootfs_overlay/root/.config/nvim"
+
+if [ ! -f "$LAZYVIM_DIR/init.lua" ]; then
+  echo "[+] installing LazyVim starter into rootfs overlay..."
+  rm -rf "$LAZYVIM_DIR"
+  mkdir -p "board/qemu_aarch64/rootfs_overlay/root/.config"
+  git clone --depth 1 https://github.com/LazyVim/starter "$LAZYVIM_DIR"
+  rm -rf "$LAZYVIM_DIR/.git"
+fi
+
 echo "[+] compiled potad successfully!"
