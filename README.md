@@ -48,6 +48,7 @@ hardware design led by FlyingFish
 # software specs:
 
 * buildroot-generated aarch64 linux kernel
+* u-boot bootloader configuration
 * custom c++ pid 1 process manager
 * busybox shell
 * virtual filesystems
