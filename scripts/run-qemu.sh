@@ -1,10 +1,15 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
 qemu-system-aarch64 \
     -M virt \
     -cpu cortex-a53 \
     -smp 4 \
     -m 2048M \
-    -kernel buildroot/output/images/Image \
-    -drive file=buildroot/output/images/rootfs.ext4,if=none,format=raw,id=hd0 \
+    -kernel "$ROOT_DIR/buildroot/output/images/Image" \
+    -drive file="$ROOT_DIR/buildroot/output/images/rootfs.ext4",if=none,format=raw,id=hd0 \
     -device virtio-blk-device,drive=hd0 \
     -device virtio-gpu-gl-pci \
     -device virtio-keyboard-pci \
