@@ -63,16 +63,34 @@ software development led by SwedishSplidney
 # build and run:
 
 no pre-prepared `.iso` files are available yet, but you can run it locally:
+> note: make sure your parent directory doesn't have spaces in it (buildroot will freak out)
 
-```bash
-# build
-mkdir -p build && cd build
-cmake ..
-cmake
+* clone the repo:
+  ```bash
+  git clone https://github.com/swedishsplidney/potad.git
+  cd potad
+  ```
 
-# trigger the qemu run script
-./scripts/run-qemu.sh
-```
+* build the os image:
+  ```bash
+  ./scripts/build-app.sh
+  ```
+> note: setting up buildroot can take a while!
+
+* run in qemu:
+  ```bash
+  ./scripts/run-qemu.sh
+  ```
+* or, if you want to test u-boot you can run:
+  ```bash
+  ./scripts/run-qemu-uboot.sh
+  ```
+  * then to boot into potadOS, run the following inside the u-boot terminal:
+    ```text
+    setenv bootcmd "ext4load virtio 0:0 0x40400000 /boot/Image; booti 0x40400000 - ${fdtcontroladdr}"
+    setenv bootargs "console=ttyAMA0 root=/dev/vda rw earlycon init=/sbin/potad_init"
+    boot
+    ```
 
 ---
 
