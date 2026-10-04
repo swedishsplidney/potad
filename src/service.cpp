@@ -50,18 +50,26 @@ void run_init_scripts() {
     }
 }
 
-void start_supervised_service(const std::string& name, const std::string& path) {
+void start_supervised_service(const std::string& name, const std::string& path, const std::vector<std::string>& args) {
     Service svc;
     svc.name = name;
     svc.path = path;
+    svc.args = args;
     svc.respawn = true;
 
     pid_t pid = fork();
     if (pid == 0) {
         signal(SIGINT, SIG_DFL);
         signal(SIGQUIT, SIG_DFL);
-        char* const args[] = {(char*)path.c_str(), nullptr};
-        execv(path.c_str(), args);
+
+        std::vector<char*> argv;
+        argv.push_back(const_cast<char*>(path.c_str()));
+        for (const auto& arg : args) {
+            argv.push_back(const_cast<char*>(arg.c_str()));
+        }
+        argv.push_back(nullptr);
+
+        execv(path.c_str(), argv.data());
         _exit(1);
     } else if (pid > 0) {
         svc.pid = pid;
@@ -81,8 +89,14 @@ void check_and_respawn_services() {
 
                 pid_t new_pid = fork();
                 if (new_pid == 0) {
-                    char* const args[] = {(char*)svc.path.c_str(), nullptr};
-                    execv(svc.path.c_str(), args);
+                    std::vector<char*> argv;
+                    argv.push_back(const_cast<char*>(svc.path.c_str()));
+                    for (const auto& arg : svc.args) {
+                        argv.push_back(const_cast<char*>(arg.c_str()));
+                    }
+                    argv.push_back(nullptr);
+
+                    execv(svc.path.c_str(), argv.data());
                     _exit(1);
                 } else if (new_pid > 0) {
                     svc.pid = new_pid;
