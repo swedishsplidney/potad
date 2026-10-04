@@ -7,6 +7,7 @@
 struct Service {
     std::string name;
     std::string path;
+    std::vector<std::string> args;
     pid_t pid = -1;
     bool respawn = false;
 };
@@ -15,6 +16,6 @@ extern std::vector<Service> g_services;
 
 void run_init_scripts();
 
-void start_supervised_service(const std::string& name, const std::string& path);
+void start_supervised_service(const std::string& name, const std::string& path, const std::vector<std::string>& args = {});
 
 void check_and_respawn_services();
