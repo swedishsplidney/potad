@@ -78,30 +78,30 @@ void start_supervised_service(const std::string& name, const std::string& path, 
     }
 }
 
-void check_and_respawn_services() {
+void handle_child_exit(pid_t pid, int status) {
+    (void)status;
     for (auto& svc : g_services) {
-        if (svc.pid > 0 && svc.respawn) {
-            int status;
-            pid_t res = waitpid(svc.pid, &status, WNOHANG);
-            if (res == svc.pid) {
-                std::cout << "[potad] supervised service '" << svc.name
-                          << "' (PID " << svc.pid << ") exited. respawning...\n";
+        if (svc.pid == pid && svc.respawn) {
+            std::cout << "[potad] supervised service '" << svc.name
+                      << "' (PID " << svc.pid << ") exited. respawning...\n";
 
-                pid_t new_pid = fork();
-                if (new_pid == 0) {
-                    std::vector<char*> argv;
-                    argv.push_back(const_cast<char*>(svc.path.c_str()));
-                    for (const auto& arg : svc.args) {
-                        argv.push_back(const_cast<char*>(arg.c_str()));
-                    }
-                    argv.push_back(nullptr);
+            pid_t new_pid = fork();
+            if (new_pid == 0) {
+                signal(SIGINT, SIG_DFL);
+                signal(SIGQUIT, SIG_DFL);
 
-                    execv(svc.path.c_str(), argv.data());
-                    _exit(1);
-                } else if (new_pid > 0) {
-                    svc.pid = new_pid;
-                    std::cout << "[potad] respawned '" << svc.name << "' (new PID " << new_pid << ")\n";
+                std::vector<char*> argv;
+                argv.push_back(const_cast<char*>(svc.path.c_str()));
+                for (const auto& arg : svc.args) {
+                    argv.push_back(const_cast<char*>(arg.c_str()));
                 }
+                argv.push_back(nullptr);
+
+                execv(svc.path.c_str(), argv.data());
+                _exit(1);
+            } else if (new_pid > 0) {
+                svc.pid = new_pid;
+                std::cout << "[potad] respawned '" << svc.name << "' (new PID " << new_pid << ")\n";
             }
         }
     }
