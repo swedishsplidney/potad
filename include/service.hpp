@@ -15,7 +15,5 @@ struct Service {
 extern std::vector<Service> g_services;
 
 void run_init_scripts();
-
 void start_supervised_service(const std::string& name, const std::string& path, const std::vector<std::string>& args = {});
-
-void check_and_respawn_services();
+void handle_child_exit(pid_t pid, int status);

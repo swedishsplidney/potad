@@ -11,8 +11,11 @@
 
 void reap_zombies(int sig) {
     (void)sig;
-    while (waitpid(-1, nullptr, WNOHANG) > 0) {}
-    check_and_respawn_services();
+    int status;
+    pid_t pid;
+    while ((pid = waitpid(-1, &status, WNOHANG)) > 0) {
+        handle_child_exit(pid, status);
+    }
 }
 
 void run_script_async(const char* path) {

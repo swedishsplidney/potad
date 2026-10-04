@@ -53,6 +53,8 @@ dP
 
     run_init_scripts();
 
+    start_supervised_service("sleep_daemon", "/bin/sleep", {"3600"});
+
     while (g_shutdown_cmd == 0) {
         run_shell_session();
         if (g_shutdown_cmd == 0) {
