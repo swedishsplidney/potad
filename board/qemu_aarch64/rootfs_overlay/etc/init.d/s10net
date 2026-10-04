@@ -1,0 +1,16 @@
+#!/bin/sh
+
+case "$1" in
+  start)
+    echo "starting network interfaces..."
+    ifup -a 2>/dev/null || true
+    ;;
+  stop)
+    echo "stopping network interfaces..."
+    ifdown -a 2>/dev/null || true
+    ;;
+  *)
+    echo "usage: $0 {start|stop}"
+    exit 1
+    ;;
+esac

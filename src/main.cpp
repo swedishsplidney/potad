@@ -1,6 +1,7 @@
 #include "fs.hpp"
 #include "sys.hpp"
 #include "process.hpp"
+#include "service.hpp"
 #include <iostream>
 #include <unistd.h>
 #include <cstdlib>
@@ -47,7 +48,10 @@ dP
 
     setup_loopback();
     setup_hotplug();
+
     run_script_async("/etc/rc.local");
+
+    run_init_scripts();
 
     while (g_shutdown_cmd == 0) {
         run_shell_session();

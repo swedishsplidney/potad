@@ -1,5 +1,6 @@
 #include "process.hpp"
 #include "sys.hpp"
+#include "service.hpp"
 #include <iostream>
 #include <unistd.h>
 #include <sys/wait.h>
@@ -11,6 +12,7 @@
 void reap_zombies(int sig) {
     (void)sig;
     while (waitpid(-1, nullptr, WNOHANG) > 0) {}
+    check_and_respawn_services();
 }
 
 void run_script_async(const char* path) {
