@@ -17,3 +17,10 @@
 * 9/23
   * i wired all the ram
   * i made the most of the hdmi to 40pin stuff
+*  10/2
+  * net stuff
+* 10/3
+  *  non of the net stuff saved so i re did it
+  * i also added the data sheets to git repo
+* 10/4
+  * i stared routing the traces
