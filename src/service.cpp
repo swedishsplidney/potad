@@ -12,7 +12,7 @@
 std::vector<Service> g_services;
 
 void run_init_scripts() {
-    const char* dir_path = "etc/init.d";
+    const char* dir_path = "/etc/init.d";
     DIR* dir = opendir(dir_path);
     if (!dir) {
         std::cout << "no /etc/init.d directory found, skipping init scripts.\n";
