@@ -9,6 +9,8 @@ set(SOURCES
     src/sys.cpp
     src/process.cpp
     src/fs.cpp
+        include/service.hpp
+        src/service.cpp
 )
 
 add_executable(potad_init ${SOURCES})
