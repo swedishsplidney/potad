@@ -18,7 +18,7 @@ for tool in "${REQUIRED_TOOLS[@]}"; do
   fi
 done
 
-REQUIRED_SOURCES=("src/main.cpp" "src/fs.cpp" "src/sys.cpp" "src/process.cpp" "src/service.cpp")
+REQUIRED_SOURCES=("src/main.cpp" "src/fs.cpp" "src/sys.cpp" "src/process.cpp" "src/service.cpp" "src/control_socket.cpp")
 for src in "${REQUIRED_SOURCES[@]}"; do
   if [ ! -f "$src" ]; then
     echo "[-] error: source file '$src' missing."
@@ -69,6 +69,12 @@ $TOOLCHAIN -O2 -std=c++17 -static \
     -Iinclude \
     "${REQUIRED_SOURCES[@]}" \
     -o board/qemu_aarch64/rootfs_overlay/sbin/potad_init
+
+mkdir -p board/qemu_aarch64/rootfs_overlay/usr/bin
+echo "[+] compiling potad-ctl..."
+$TOOLCHAIN -O2 -std=c++17 -static \
+    src/client.cpp \
+    -o board/qemu_aarch64/rootfs_overlay/usr/bin/potad-ctl
 
 LAZYVIM_DIR="board/qemu_aarch64/rootfs_overlay/root/.config/nvim"
 if [ ! -f "$LAZYVIM_DIR/init.lua" ]; then
