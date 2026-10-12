@@ -11,6 +11,9 @@ set(SOURCES
     src/fs.cpp
         include/service.hpp
         src/service.cpp
+        include/control_socket.hpp
+        src/control_socket.cpp
+        src/client.cpp
 )
 
 add_executable(potad_init ${SOURCES})

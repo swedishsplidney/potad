@@ -2,6 +2,7 @@
 #include "sys.hpp"
 #include "process.hpp"
 #include "service.hpp"
+#include "control_socket.hpp"
 #include <iostream>
 #include <unistd.h>
 #include <cstdlib>
@@ -48,6 +49,8 @@ dP
 
     setup_loopback();
     setup_hotplug();
+
+    init_control_socket();
 
     run_script_async("/etc/rc.local");
 
