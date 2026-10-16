@@ -18,7 +18,7 @@ for tool in "${REQUIRED_TOOLS[@]}"; do
   fi
 done
 
-REQUIRED_SOURCES=("src/main.cpp" "src/fs.cpp" "src/sys.cpp" "src/process.cpp" "src/service.cpp" "src/control_socket.cpp")
+REQUIRED_SOURCES=("src/main.cpp" "src/fs.cpp" "src/sys.cpp" "src/process.cpp" "src/service.cpp" "src/control_socket.cpp" "src/log.cpp")
 for src in "${REQUIRED_SOURCES[@]}"; do
   if [ ! -f "$src" ]; then
     echo "[-] error: source file '$src' missing."
