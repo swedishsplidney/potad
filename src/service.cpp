@@ -1,5 +1,5 @@
 #include "service.hpp"
-#include <iostream>
+#include "log.hpp"
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -15,7 +15,7 @@ void run_init_scripts() {
     const char* dir_path = "/etc/init.d";
     DIR* dir = opendir(dir_path);
     if (!dir) {
-        std::cout << "no /etc/init.d directory found, skipping init scripts.\n";
+        potad_log(LOG_WARNING, "no /etc/init.d directory found, skipping init scripts.");
         return;
     }
 
@@ -35,7 +35,7 @@ void run_init_scripts() {
     std::sort(scripts.begin(), scripts.end());
 
     for (const auto& script : scripts) {
-        std::cout << "[potad] running init script: " << script << "\n";
+        potad_log(LOG_INFO, "running init script: " + script);
         pid_t pid = fork();
         if (pid == 0) {
             signal(SIGINT, SIG_DFL);
@@ -74,7 +74,7 @@ void start_supervised_service(const std::string& name, const std::string& path, 
     } else if (pid > 0) {
         svc.pid = pid;
         g_services.push_back(svc);
-        std::cout << "[potad] started supervised service '" << name << "' (PID " << pid << ")\n";
+        potad_log(LOG_INFO, "started supervised service '" + name + "' (PID " + std::to_string(pid) + ")");
     }
 }
 
@@ -82,8 +82,7 @@ void handle_child_exit(pid_t pid, int status) {
     (void)status;
     for (auto& svc : g_services) {
         if (svc.pid == pid && svc.respawn) {
-            std::cout << "[potad] supervised service '" << svc.name
-                      << "' (PID " << svc.pid << ") exited. respawning...\n";
+            potad_log(LOG_WARNING, "supervised service '" + svc.name + "' (PID " + std::to_string(svc.pid) + ") exited. respawning...");
 
             pid_t new_pid = fork();
             if (new_pid == 0) {
@@ -101,7 +100,7 @@ void handle_child_exit(pid_t pid, int status) {
                 _exit(1);
             } else if (new_pid > 0) {
                 svc.pid = new_pid;
-                std::cout << "[potad] respawned '" << svc.name << "' (new PID " << new_pid << ")\n";
+                potad_log(LOG_INFO, "respawned '" + svc.name + "' (new PID " + std::to_string(new_pid) + ")");
             }
         }
     }

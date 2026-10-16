@@ -78,7 +78,7 @@ $TOOLCHAIN -O2 -std=c++17 -static \
 
 LAZYVIM_DIR="board/qemu_aarch64/rootfs_overlay/root/.config/nvim"
 if [ ! -f "$LAZYVIM_DIR/init.lua" ]; then
-  echo "[+] Installing LazyVim starter into rootfs overlay..."
+  echo "[+] installing lazyvim starter into rootfs overlay..."
   rm -rf "$LAZYVIM_DIR"
   mkdir -p "board/qemu_aarch64/rootfs_overlay/root/.config"
   git clone --depth 1 https://github.com/LazyVim/starter "$LAZYVIM_DIR"
