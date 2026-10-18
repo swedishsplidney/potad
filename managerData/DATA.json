@@ -1,0 +1,123 @@
+{
+    "Name": "um",
+    "des": "percinal otimizatoin tool (for) all in one development",
+    "fet": [
+        "feature"
+    ],
+    "link": [
+        {
+            "link": "https://www.lcsc.com/datasheet/C5827966.pdf",
+            "name": "datasheet",
+            "sub": [
+                {
+                    "name": "nasd"
+                },
+                {
+                    "name": "nasd"
+                },
+                {
+                    "name": "nasd"
+                },
+                {
+                    "name": "nasd"
+                },
+                {
+                    "done": false,
+                    "name": "asd"
+                }
+            ]
+        },
+        {
+            "link": "https://doc.qt.io/qt-6/qml-qtquick-virtualkeyboard-styles-keyicon.html",
+            "name": "refrence",
+            "sub": [
+                {
+                    "done": false,
+                    "name": "PLACEHOLDER"
+                }
+            ]
+        },
+        {
+            "link": "asd",
+            "name": "asd"
+        },
+        {
+            "link": "asdasdasdasdasdasdasdasdas",
+            "name": "asd"
+        }
+    ],
+    "logo": "",
+    "name": "potad",
+    "note": "test\n***\n* asdasd\n    * asdsdasd",
+    "part": [
+        {
+            "cur": "$",
+            "link": "https://somthing",
+            "name": "cpu",
+            "price": 16,
+            "value": [
+                "asdasda",
+                "aasdasd",
+                "asdR",
+                "asd",
+                "asd"
+            ]
+        },
+        {
+            "cur": "$",
+            "link": "asdasdasdasd",
+            "name": "ram",
+            "price": 100,
+            "value": [
+                "4gb"
+            ]
+        }
+    ],
+    "task": [
+        {
+            "done": false,
+            "name": "net",
+            "sub": [
+                {
+                    "done": true,
+                    "name": "CPU"
+                },
+                {
+                    "done": false,
+                    "name": "DRAM"
+                },
+                {
+                    "done": false,
+                    "name": "EMMC"
+                },
+                {
+                    "done": false,
+                    "name": "wifi"
+                },
+                {
+                    "done": false,
+                    "name": "KB chip"
+                }
+            ]
+        },
+        {
+            "done": false,
+            "name": "traces",
+            "sub": [
+                {
+                    "done": false,
+                    "name": "DRAM"
+                },
+                {
+                    "done": false,
+                    "name": ""
+                }
+            ]
+        },
+        {
+            "done": false,
+            "name": "keyboard",
+            "sub": []
+        }
+    ]
+}

@@ -24,3 +24,10 @@
   * i also added the data sheets to git repo
 * 10/4
   * i stared routing the traces
+* 10/17
+  * so the past week or soo i compleatly forgot to update this but i baisicly would rerout ram over and over again untill it worked
+  * it was a lot becouse of all th byte groups and it was anoying
+  * today i did the rams clock and i started the tuning but its late so i will do it tomarow
+* 10/18
+  * tuneing stuff ykyk
+  * kb layout
