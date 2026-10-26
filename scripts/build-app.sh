@@ -76,6 +76,14 @@ $TOOLCHAIN -O2 -std=c++17 -static \
     src/client.cpp \
     -o board/qemu_aarch64/rootfs_overlay/usr/bin/potad-ctl
 
+echo "[+] writing /etc/fstab..."
+mkdir -p board/qemu_aarch64/rootfs_overlay/etc
+cat << 'EOF' > board/qemu_aarch64/rootfs_overlay/etc/fstab
+# /etc/fstab: static file system information
+# <file system>             <mount point>   <type>  <options>       <dump>  <pass>
+/dev/vda                    /               ext4    rw,relatime     0       1
+EOF
+
 LAZYVIM_DIR="board/qemu_aarch64/rootfs_overlay/root/.config/nvim"
 if [ ! -f "$LAZYVIM_DIR/init.lua" ]; then
   echo "[+] installing lazyvim starter into rootfs overlay..."

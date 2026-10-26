@@ -32,6 +32,8 @@ dP
     mount_fs("tmpfs", "/tmp", "tmpfs", 0);
     mount_fs("tmpfs", "/run", "tmpfs", 0);
 
+    remount_root();
+
     sethostname("potad", 5);
 
     signal(SIGINT, SIG_IGN);
@@ -49,6 +51,8 @@ dP
 
     setup_loopback();
     setup_hotplug();
+    
+    mount_fstab();
 
     init_control_socket();
 

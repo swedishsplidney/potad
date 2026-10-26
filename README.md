@@ -55,6 +55,7 @@ hardware design led by FlyingFish
 * cross-compiled neovim, git, make and more
 * dhcp network integration
 * graceful shutdown (`exit`)
+* 
 
 software development led by SwedishSplidney
 
