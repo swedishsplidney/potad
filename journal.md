@@ -31,3 +31,16 @@
 * 10/18
   * tuneing stuff ykyk
   * kb layout
+* 10/24
+  * i went back to blender to make a better case
+* 10/25
+  * i have made a system like a pop up book so the kb will expand and it looks like really cool
+* 10/28
+  * i made like a tone of brackets to make the expanding kb work
+* 10/29
+  * i made things so the middle kb can slide better
+* 10/30
+  * i added key caps to the kb
+* 11/1
+  * i added all of the letters on to the key caps
+  * it was soooo much harder then i expected
