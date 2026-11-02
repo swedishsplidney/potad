@@ -1,82 +1,99 @@
 #include "control_socket.hpp"
-#include <iostream>
+#include "config.hpp"
+#include "log.hpp"
+#include "service.hpp"
+#include "sys.hpp"
+
+#include <cerrno>
+#include <cstdio>
+#include <cstring>
+#include <ctime>
+#include <poll.h>
 #include <string>
+#include <sys/reboot.h>
 #include <sys/socket.h>
+#include <sys/stat.h>
 #include <sys/un.h>
 #include <unistd.h>
-#include <signal.h>
-#include <cstring>
 
-void init_control_socket() {
-    pid_t pid = fork();
-    if (pid < 0) {
-        perror("failed to fork control socket daemon");
-        return;
+static_assert(sizeof(cfg::kControlSocket) <= sizeof(sockaddr_un::sun_path), "control socket path too long");
+
+int control_socket_open() {
+    unlink(cfg::kControlSocket);
+
+    const int fd = socket(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC | SOCK_NONBLOCK, 0);
+    if (fd < 0) {
+        potad_log(LogLevel::Err, "control socket: %s", strerror(errno));
+        return -1;
     }
 
-    if (pid == 0) {
-        const char* socket_path = "/run/potad.sock";
-        unlink(socket_path);
+    sockaddr_un addr{};
+    addr.sun_family = AF_UNIX;
+    memcpy(addr.sun_path, cfg::kControlSocket, sizeof cfg::kControlSocket);
 
-        int server_fd = socket(AF_UNIX, SOCK_STREAM, 0);
-        if (server_fd < 0) {
-            _exit(1);
+    if (bind(fd, reinterpret_cast<sockaddr*>(&addr), sizeof addr) < 0 ||
+        chmod(cfg::kControlSocket, 0600) < 0 ||
+        listen(fd, 8) < 0) {
+        potad_log(LogLevel::Err, "control socket setup failed: %s", strerror(errno));
+        close(fd);
+        return -1;
+    }
+
+    potad_log(LogLevel::Info, "control socket listening on %s", cfg::kControlSocket);
+    return fd;
+}
+
+static std::string run_command(const std::string& cmd) {
+    if (cmd == "status") {
+        timespec ts{};
+        clock_gettime(CLOCK_BOOTTIME, &ts);
+        char buf[96];
+        snprintf(buf, sizeof buf, "potadOS up %lds, %d/%d services running\n",
+                 static_cast<long>(ts.tv_sec), services_running(), services_total());
+        return buf;
+    }
+    if (cmd == "services") return services_report();
+    if (cmd == "poweroff") {
+        request_shutdown(RB_POWER_OFF, "control socket");
+        return "poweroff initiated\n";
+    }
+    if (cmd == "reboot") {
+        request_shutdown(RB_AUTOBOOT, "control socket");
+        return "reboot initiated\n";
+    }
+    return "unknown command (try: status, services, poweroff, reboot)\n";
+}
+
+void control_socket_handle(int listen_fd) {
+    for (;;) {
+        const int fd = accept4(listen_fd, nullptr, nullptr, SOCK_CLOEXEC);
+        if (fd < 0) {
+            if (errno == EINTR) continue;
+            return;
         }
 
-        struct sockaddr_un addr{};
-        addr.sun_family = AF_UNIX;
-        std::strncpy(addr.sun_path, socket_path, sizeof(addr.sun_path) - 1);
-
-        if (bind(server_fd, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
-            close(server_fd);
-            _exit(1);
+        ucred cred{};
+        socklen_t len = sizeof cred;
+        if (getsockopt(fd, SOL_SOCKET, SO_PEERCRED, &cred, &len) != 0 || cred.uid != 0) {
+            close(fd);
+            continue;
         }
 
-        if (listen(server_fd, 5) < 0) {
-            close(server_fd);
-            _exit(1);
-        }
-
-        std::cout << "[potad] control socket listening on " << socket_path << "\n";
-
-        while (true) {
-            int client_fd = accept(server_fd, nullptr, nullptr);
-            if (client_fd < 0) continue;
-
-            char buf[256];
-            ssize_t n = read(client_fd, buf, sizeof(buf) - 1);
+        pollfd p{fd, POLLIN, 0};
+        if (poll(&p, 1, cfg::kControlClientTimeoutMs) > 0) {
+            char buf[128];
+            const ssize_t n = read(fd, buf, sizeof buf - 1);
             if (n > 0) {
-                buf[n] = '\0';
-                std::string cmd(buf);
-
-                while (!cmd.empty() && (cmd.back() == '\n' || cmd.back() == '\r')) {
-                    cmd.pop_back();
-                }
-
-                if (cmd == "poweroff") {
-                    std::string resp = "poweroff initiated\n";
-                    write(client_fd, resp.c_str(), resp.size());
-                    close(client_fd);
-                    kill(1, SIGUSR1);
-                    break;
-                } else if (cmd == "reboot") {
-                    std::string resp = "reboot initiated\n";
-                    write(client_fd, resp.c_str(), resp.size());
-                    close(client_fd);
-                    kill(1, SIGTERM);
-                    break;
-                } else if (cmd == "status") {
-                    std::string resp = "potadOS running, services active\n";
-                    write(client_fd, resp.c_str(), resp.size());
-                } else {
-                    std::string resp = "unknown command.\n";
-                    write(client_fd, resp.c_str(), resp.size());
+                std::string cmd(buf, static_cast<size_t>(n));
+                while (!cmd.empty() && strchr(" \t\r\n", cmd.back())) cmd.pop_back();
+                const std::string resp = run_command(cmd);
+                if (send(fd, resp.data(), resp.size(), MSG_NOSIGNAL) >= 0) {
+                    shutdown(fd, SHUT_WR);
+                    pollfd done{fd, POLLIN, 0};
+                    poll(&done, 1, cfg::kControlClientTimeoutMs);
                 }
             }
-            close(client_fd);
         }
-
-        close(server_fd);
-        _exit(0);
+        close(fd);
     }
 }

@@ -1,42 +1,50 @@
-#include <iostream>
-#include <string>
+#include "config.hpp"
+
+#include <cerrno>
+#include <cstdio>
+#include <cstring>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <unistd.h>
-#include <cstring>
+
+static_assert(sizeof(cfg::kControlSocket) <= sizeof(sockaddr_un::sun_path), "control socket path too long");
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) {
-        std::cerr << "usage: potad-ctl {status|poweroff|reboot}\n";
+    if (argc != 2) {
+        fputs("usage: potad-ctl {status|services|poweroff|reboot}\n", stderr);
+        return 2;
+    }
+
+    const int fd = socket(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0);
+    if (fd < 0) {
+        perror("potad-ctl: socket");
         return 1;
     }
 
-    std::string cmd = argv[1];
-    int sock = socket(AF_UNIX, SOCK_STREAM, 0);
-    if (sock < 0) {
-        perror("socket failed");
-        return 1;
-    }
-
-    struct sockaddr_un addr{};
+    sockaddr_un addr{};
     addr.sun_family = AF_UNIX;
-    std::strncpy(addr.sun_path, "/run/potad.sock", sizeof(addr.sun_path) - 1);
+    memcpy(addr.sun_path, cfg::kControlSocket, sizeof cfg::kControlSocket);
 
-    if (connect(sock, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
-        perror("connect failed");
-        close(sock);
+    if (connect(fd, reinterpret_cast<sockaddr*>(&addr), sizeof addr) < 0) {
+        perror("potad-ctl: connect (is potad running, and are you root?)");
         return 1;
     }
 
-    write(sock, cmd.c_str(), cmd.size());
-
-    char buf[256];
-    ssize_t n = read(sock, buf, sizeof(buf) - 1);
-    if (n > 0) {
-        buf[n] = '\0';
-        std::cout << buf;
+    const size_t len = strlen(argv[1]);
+    if (send(fd, argv[1], len, MSG_NOSIGNAL) != static_cast<ssize_t>(len)) {
+        perror("potad-ctl: send");
+        return 1;
     }
 
-    close(sock);
+    char buf[512];
+    ssize_t n;
+    while ((n = read(fd, buf, sizeof buf)) != 0) {
+        if (n < 0) {
+            if (errno == EINTR) continue;
+            perror("potad-ctl: read");
+            return 1;
+        }
+        fwrite(buf, 1, static_cast<size_t>(n), stdout);
+    }
     return 0;
 }

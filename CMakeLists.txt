@@ -16,6 +16,7 @@ set(SOURCES
         src/client.cpp
         include/log.hpp
         src/log.cpp
+        include/config.hpp
 )
 
 add_executable(potad_init ${SOURCES})

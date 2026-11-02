@@ -1,3 +1,4 @@
 # /etc/fstab: static file system information
 # <file system>             <mount point>   <type>  <options>       <dump>  <pass>
 /dev/vda                    /               ext4    rw,relatime     0       1
+/dev/vdb                    /home           ext4    rw,relatime     0       2

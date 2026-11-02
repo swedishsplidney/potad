@@ -1,20 +1,21 @@
+#include "config.hpp"
+#include "control_socket.hpp"
 #include "fs.hpp"
-#include "sys.hpp"
+#include "log.hpp"
 #include "process.hpp"
 #include "service.hpp"
-#include "control_socket.hpp"
-#include <iostream>
-#include <unistd.h>
+#include "sys.hpp"
+
+#include <cerrno>
+#include <cstdio>
 #include <cstdlib>
-#include <csignal>
+#include <cstring>
+#include <poll.h>
 #include <sys/reboot.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
-int main() {
-    setenv("PATH", "/usr/bin:/bin:/usr/sbin:/sbin", 1);
-    setenv("TERM", "linux", 1);
-    setenv("HOME", "/root", 1);
-
-    std::cout << R"(
+static const char kBanner[] = R"(
                     dP                  dP
                     88                  88
 88d888b. .d8888b. d8888P .d8888b. .d888b88
@@ -23,55 +24,60 @@ int main() {
 88Y888P' `88888P'   dP   `88888P8 `88888P8
 88
 dP
-    )" << std::endl;
+)";
 
-    mount_fs("proc", "/proc", "proc", 0);
-    mount_fs("sysfs", "/sys", "sysfs", 0);
-    mount_fs("devtmpfs", "/dev", "devtmpfs", 0);
-    mount_fs("devpts", "/dev/pts", "devpts", 0);
-    mount_fs("tmpfs", "/tmp", "tmpfs", 0);
-    mount_fs("tmpfs", "/run", "tmpfs", 0);
+int main() {
+    if (getpid() != 1) {
+        fputs("potad_init must be started as PID 1 (kernel cmdline: init=/sbin/potad_init)\n", stderr);
+        return 1;
+    }
 
-    remount_root();
+    umask(022);
+    setenv("PATH", cfg::kPath, 1);
+    setenv("TERM", "linux", 0);
+    setenv("HOME", "/root", 0);
 
-    sethostname("potad", 5);
+    mount_early_filesystems();
+    setup_console();
+    log_init();
+    if (write(STDOUT_FILENO, kBanner, sizeof kBanner - 1) < 0) { /* console is gone lol */ }
 
-    signal(SIGINT, SIG_IGN);
-
-    struct sigaction sa_chld{};
-    sa_chld.sa_handler = reap_zombies;
-    sa_chld.sa_flags = SA_RESTART | SA_NOCLDSTOP;
-    sigaction(SIGCHLD, &sa_chld, nullptr);
-
-    struct sigaction sa_shut{};
-    sa_shut.sa_handler = handle_shutdown_signal;
-    sigaction(SIGUSR1, &sa_shut, nullptr);
-    sigaction(SIGTERM, &sa_shut, nullptr);
-    sigaction(SIGPWR, &sa_shut, nullptr);
+    setup_dev_symlinks();
+    remount_root_rw();
+    setup_hostname();
+    const int signal_fd = setup_signals();
 
     setup_loopback();
     setup_hotplug();
-    
     mount_fstab();
 
-    init_control_socket();
+    const int control_fd = control_socket_open();
 
-    run_script_async("/etc/rc.local");
+    run_rc_local();
+    start_init_scripts_job();
 
-    run_init_scripts();
+    Service shell;
+    shell.name = "shell";
+    shell.path = "/bin/sh";
+    shell.args = {"-i"};
+    shell.argv0 = "-sh";
+    shell.console = true;
+    shell.respawn = !cfg::kShellExitPowersOff;
+    shell.poweroff_on_exit = cfg::kShellExitPowersOff;
+    start_service(std::move(shell));
 
-    start_supervised_service("sleep_daemon", "/bin/sleep", {"3600"});
-
+    pollfd fds[2] = {{signal_fd, POLLIN, 0}, {control_fd, POLLIN, 0}};
     while (g_shutdown_cmd == 0) {
-        run_shell_session();
-        if (g_shutdown_cmd == 0) {
-            std::cout << "shell exited, powering off...\n";
-            g_shutdown_cmd = RB_POWER_OFF;
-            break;
+        if (poll(fds, 2, services_next_timeout_ms()) > 0) {
+            if (fds[0].revents & POLLIN) handle_signals(signal_fd);
+            if (fds[1].revents & POLLIN) control_socket_handle(control_fd);
         }
+        services_tick();
     }
 
     graceful_shutdown();
-    reboot(g_shutdown_cmd ? g_shutdown_cmd : RB_POWER_OFF);
-    return 0;
+    reboot(g_shutdown_cmd);
+
+    potad_log(LogLevel::Crit, "reboot(2) failed: %s", strerror(errno));
+    for (;;) pause();
 }
