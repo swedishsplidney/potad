@@ -62,6 +62,11 @@ if (( ${#missing[@]} )); then
   die "missing host tools: ${missing[*]}"
 fi
 
+for hdr in openssl/engine.h gnutls/gnutls.h uuid/uuid.h; do
+  echo "#include <$hdr>" | gcc -E -x c - &>/dev/null \
+    || die "host header <$hdr> not found. On fedora: sudo dnf install openssl-devel openssl-devel-engine gnutls-devel libuuid-devel"
+done
+
 for src in main fs sys process service control_socket log client; do
   [[ -f "src/$src.cpp" ]] || die "source file 'src/$src.cpp' missing"
 done
