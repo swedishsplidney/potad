@@ -84,3 +84,4 @@ buildroot/.config.old
 
 # kicad
 *.history
+*.lck
