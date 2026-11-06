@@ -985,7 +985,7 @@
 	(footprint "Connector_USB:USB_A_CNCTech_1001-011-01101_Horizontal"
 		(layer "F.Cu")
 		(uuid "42b984bf-eaae-403b-b869-58161ee72cea")
-		(at 200.5 81.25)
+		(at 129.65 124.45)
 		(descr "USB type A Plug, Horizontal, http://cnctech.us/pdfs/1001-011-01101.pdf")
 		(tags "USB-A")
 		(property "Reference" "REF**"
@@ -1524,7 +1524,7 @@
 		(property "Reference" "wifi"
 			(at 0 0 0)
 			(layer "F.SilkS")
-			(uuid "035e506f-a860-4cd3-8470-f1450d500855")
+			(uuid "7a33c221-80fd-4c05-bfe0-611ba933bd2a")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1536,7 +1536,7 @@
 			(at 0 0 0)
 			(layer "F.SilkS")
 			(hide yes)
-			(uuid "7055403d-9018-4d1f-99a1-5f76879a2740")
+			(uuid "23712753-efc3-4794-98f3-5d864ce89a50")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1548,7 +1548,7 @@
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "d3eec660-554b-44f9-8ac1-6c3dd7086932")
+			(uuid "3789961d-5d98-4bb8-ac1d-cc243bbaf176")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1559,7 +1559,7 @@
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "d8b055a3-6e2f-4966-be40-89c818f6b9ae")
+			(uuid "ac167758-7733-4728-9656-4f29302f2b54")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2002,10 +2002,241 @@
 			)
 		)
 	)
+	(footprint "Library:thing"
+		(layer "F.Cu")
+		(uuid "6a5559c0-2ab2-43ef-80b5-1923acfd5467")
+		(at 178.788 86.595)
+		(descr "SOP-8")
+		(tags "Connector")
+		(property "Reference" "J**"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(uuid "524e22dd-029d-4b02-af8b-a02d568528ef")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.254)
+				)
+			)
+		)
+		(property "Value" "thing"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(hide yes)
+			(uuid "a4ae02c3-91c8-4306-9b3b-9f978393c2f5")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.254)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4b64af22-df4f-4276-af44-32ce5064a2d0")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8975423d-b6d8-4766-a7b6-6c82f34f6621")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(attr smd)
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_line
+			(start -3.475 -2.605)
+			(end -1.95 -2.605)
+			(stroke
+				(width 0.2)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "14c409b8-ea1a-4656-a6d6-a86be3626ed9")
+		)
+		(fp_line
+			(start -3.725 -2.8)
+			(end 3.725 -2.8)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "fed0724d-e8e5-40fc-8e3d-8faa644ebdfc")
+		)
+		(fp_line
+			(start -3.725 2.8)
+			(end -3.725 -2.8)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "03b4d9e4-7ac4-4eba-921b-d1046bcec64a")
+		)
+		(fp_line
+			(start 3.725 -2.8)
+			(end 3.725 2.8)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "fd88b20b-0805-4b7c-b17e-dd23c5e3eb75")
+		)
+		(fp_line
+			(start 3.725 2.8)
+			(end -3.725 2.8)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "4c0995b2-402b-4172-92d3-5d7f138dabcc")
+		)
+		(fp_line
+			(start -1.95 -2.45)
+			(end 1.95 -2.45)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "e05768a7-97d3-4016-aeb5-4b790e28af05")
+		)
+		(fp_line
+			(start -1.95 -1.18)
+			(end -0.68 -2.45)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "59076471-bcb2-408f-9a36-1d92bebbaad7")
+		)
+		(fp_line
+			(start -1.95 2.45)
+			(end -1.95 -2.45)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "501bcf0f-b73e-4acb-a43c-c791b3fd432b")
+		)
+		(fp_line
+			(start 1.95 -2.45)
+			(end 1.95 2.45)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "e06a9018-806e-47f6-8d80-3fecfa8bfaaa")
+		)
+		(fp_line
+			(start 1.95 2.45)
+			(end -1.95 2.45)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "77199a2b-8e73-4786-92dd-18172c2e12aa")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(uuid "665dfd25-93be-42ff-9e3e-a76d6403316b")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.254)
+				)
+			)
+		)
+		(pad "1" smd rect
+			(at -2.712 -1.905 90)
+			(size 0.7 1.525)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(uuid "3caa3a2b-f3c7-49d3-8086-ebc084f2cf3d")
+		)
+		(pad "2" smd rect
+			(at -2.712 -0.635 90)
+			(size 0.7 1.525)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(uuid "ede8de4b-0e6a-46cf-8ff8-1e8ff90742ca")
+		)
+		(pad "3" smd rect
+			(at -2.712 0.635 90)
+			(size 0.7 1.525)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(uuid "398df6cc-be3a-4851-9351-955a622bcbe0")
+		)
+		(pad "4" smd rect
+			(at -2.712 1.905 90)
+			(size 0.7 1.525)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(uuid "ebf9a7da-6a6e-43ac-865b-32b9ff2e0d51")
+		)
+		(pad "5" smd rect
+			(at 2.712 1.905 90)
+			(size 0.7 1.525)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(uuid "2cb5fcad-617a-4058-b391-d4a957469fb4")
+		)
+		(pad "6" smd rect
+			(at 2.712 0.635 90)
+			(size 0.7 1.525)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(uuid "939cebdf-0e19-4375-9e9a-203466e04b8e")
+		)
+		(pad "7" smd rect
+			(at 2.712 -0.635 90)
+			(size 0.7 1.525)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(uuid "1c5ab493-69f7-43ba-8737-fd21f44fd20f")
+		)
+		(pad "8" smd rect
+			(at 2.712 -1.905 90)
+			(size 0.7 1.525)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(uuid "842e649d-8726-4c76-bb9e-58877acb1356")
+		)
+		(pad "9" smd rect
+			(at 0 0)
+			(size 2.513 3.402)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(uuid "6c9d02fe-5406-422d-be45-7edebc310268")
+		)
+		(embedded_fonts no)
+		(model "TP4056.stp"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
+	)
 	(footprint "Connector_USB:USB_C_Receptacle_GCT_USB4085"
 		(layer "F.Cu")
 		(uuid "8fb53424-a413-46c8-b523-f37c833d6b9b")
-		(at 188.24 97.35 90)
+		(at 117.39 140.55 90)
 		(descr "USB 2.0 Type C Receptacle, https://gct.co/Files/Drawings/USB4085.pdf")
 		(tags "USB Type-C Receptacle Through-hole Right angle")
 		(property "Reference" "REF**"
@@ -2406,7 +2637,7 @@
 	(footprint "Connector_USB:USB_A_CNCTech_1001-011-01101_Horizontal"
 		(layer "F.Cu")
 		(uuid "9d8f8e39-aa71-47a2-8c02-890987fa011e")
-		(at 197.25 108)
+		(at 126.4 151.2)
 		(descr "USB type A Plug, Horizontal, http://cnctech.us/pdfs/1001-011-01101.pdf")
 		(tags "USB-A")
 		(property "Reference" "REF**"
@@ -2952,7 +3183,7 @@
 			)
 		)
 		(property "Value" "FBGA-200_L14.5-W10.0_RS1G32LF4D2BDS-53BT"
-			(at 0 8.4 0)
+			(at -0.07 6.7 0)
 			(layer "F.Fab")
 			(uuid "566e7cf2-0216-4996-ba65-ce1e09c0b7aa")
 			(effects
@@ -6733,10 +6964,263 @@
 			)
 		)
 	)
+	(footprint "Library:SOT95P280X145-6N"
+		(layer "F.Cu")
+		(uuid "bf301b28-b237-48e1-a833-52701d6e3ffc")
+		(at 193.75 96.3)
+		(descr "sot-23-6,")
+		(tags "Integrated Circuit")
+		(property "Reference" "IC**"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(uuid "01e2795c-3489-4522-971b-c140c0910c2d")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.254)
+				)
+			)
+		)
+		(property "Value" "SOT95P280X145-6N"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(hide yes)
+			(uuid "b361576e-9961-4721-8e4f-72361d174e23")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.254)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0825a972-8323-49f3-bcb5-931228e33db6")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "199a0d35-be3a-45a0-b28d-7bf9059a8c06")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(attr smd)
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_line
+			(start -1.85 -1.6)
+			(end -0.65 -1.6)
+			(stroke
+				(width 0.2)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "b891e511-080d-4195-87e8-79052333cf55")
+		)
+		(fp_line
+			(start -0.3 -1.45)
+			(end 0.3 -1.45)
+			(stroke
+				(width 0.2)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "a0cd1a59-0503-4097-8e37-a39ac9062024")
+		)
+		(fp_line
+			(start -0.3 1.45)
+			(end -0.3 -1.45)
+			(stroke
+				(width 0.2)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "b8081999-0b37-4ac7-9114-fbfbb579cdf5")
+		)
+		(fp_line
+			(start 0.3 -1.45)
+			(end 0.3 1.45)
+			(stroke
+				(width 0.2)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "cfe9222c-2b95-439d-9f90-5cee3d39b022")
+		)
+		(fp_line
+			(start 0.3 1.45)
+			(end -0.3 1.45)
+			(stroke
+				(width 0.2)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "ca0aa506-debd-433f-84d9-88387572f3a7")
+		)
+		(fp_line
+			(start -2.1 -1.775)
+			(end 2.1 -1.775)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "783495b1-2a9b-4003-8738-d4e76383108d")
+		)
+		(fp_line
+			(start -2.1 1.775)
+			(end -2.1 -1.775)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "da3eaca3-40c4-4440-a803-d91906ab7ce1")
+		)
+		(fp_line
+			(start 2.1 -1.775)
+			(end 2.1 1.775)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "01aa5d71-6f4c-4d2c-ab95-f6fa5371206c")
+		)
+		(fp_line
+			(start 2.1 1.775)
+			(end -2.1 1.775)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "14f04159-e139-4b3a-8386-992e4e68b795")
+		)
+		(fp_line
+			(start -0.8 -1.45)
+			(end 0.8 -1.45)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "24baf38c-b557-491a-9895-c0e70c0477cf")
+		)
+		(fp_line
+			(start -0.8 -0.5)
+			(end 0.15 -1.45)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "82a47dbf-ba3b-4bdf-adef-bb5bceb124e3")
+		)
+		(fp_line
+			(start -0.8 1.45)
+			(end -0.8 -1.45)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "0b24d0e2-5561-435e-8f86-aa3e4cde33d4")
+		)
+		(fp_line
+			(start 0.8 -1.45)
+			(end 0.8 1.45)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "c902caeb-8414-420d-bc8e-a72617146839")
+		)
+		(fp_line
+			(start 0.8 1.45)
+			(end -0.8 1.45)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "4fba5b5f-cdbc-4053-ba18-c789f3781e2c")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(uuid "a06b3698-a1e2-4403-8055-3bc6debf6e73")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.254)
+				)
+			)
+		)
+		(pad "1" smd rect
+			(at -1.25 -0.95 90)
+			(size 0.6 1.2)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(uuid "677ae628-0b4f-4967-a3ee-8297801a45ed")
+		)
+		(pad "2" smd rect
+			(at -1.25 0 90)
+			(size 0.6 1.2)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(uuid "a24f97a2-90be-4d1e-a1c2-83aab5cfdc88")
+		)
+		(pad "3" smd rect
+			(at -1.25 0.95 90)
+			(size 0.6 1.2)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(uuid "cba275ea-442a-4ca1-9f0b-2fecd844ec0e")
+		)
+		(pad "4" smd rect
+			(at 1.25 0.95 90)
+			(size 0.6 1.2)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(uuid "e7112c0e-24aa-41c8-abfe-26dbd097634d")
+		)
+		(pad "5" smd rect
+			(at 1.25 0 90)
+			(size 0.6 1.2)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(uuid "9b0272d7-8cb8-4111-8a27-10ce3cdd3b7f")
+		)
+		(pad "6" smd rect
+			(at 1.25 -0.95 90)
+			(size 0.6 1.2)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(uuid "9fc4e6fa-2909-4ac1-ac11-c0b1e6d7bbd6")
+		)
+		(embedded_fonts no)
+		(model "DW01+G.stp"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
+	)
 	(footprint "Connector_USB:USB_C_Receptacle_GCT_USB4085"
 		(layer "F.Cu")
 		(uuid "bf9a92ae-77b0-4cbc-ad33-184d698699e2")
-		(at 190.175 70.675 90)
+		(at 119.325 113.875 90)
 		(descr "USB 2.0 Type C Receptacle, https://gct.co/Files/Drawings/USB4085.pdf")
 		(tags "USB Type-C Receptacle Through-hole Right angle")
 		(property "Reference" "REF**"
@@ -10524,6 +11008,17 @@
 		)
 	)
 	(gr_rect
+		(start 167.75 80)
+		(end 198.5 112)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill no)
+		(layer "Cmts.User")
+		(uuid "17ea9bc6-7ef4-43ea-b7a5-ee960ba372b8")
+	)
+	(gr_rect
 		(start 10 10)
 		(end 287.25 200.25)
 		(stroke
@@ -10533,6 +11028,102 @@
 		(fill no)
 		(layer "Edge.Cuts")
 		(uuid "bfce2889-6229-4478-8fa6-d7bcc33a863a")
+	)
+	(gr_text "i havent fully set this up"
+		(at 126.25 82.25 0)
+		(layer "Cmts.User")
+		(uuid "37565b50-b023-43d4-9ffe-521a183bcbdb")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left bottom)
+		)
+	)
+	(gr_text "i havent fully set this up"
+		(at 138.25 70.75 0)
+		(layer "Cmts.User")
+		(uuid "801dfa84-af9c-49b6-b396-228eb5da6416")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left bottom)
+		)
+	)
+	(gr_text "ngl looking back at this\ni need to redo like all of this"
+		(at 141 100 0)
+		(layer "Cmts.User")
+		(uuid "f2b1ed22-a2fb-445d-a828-7e1be443c207")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left bottom)
+		)
+	)
+	(gr_text "you can use this genral area for power\nfeel free to use more or less area\n"
+		(at 168.5 79 0)
+		(layer "Cmts.User")
+		(uuid "2659f2a6-9853-453c-bb5b-2e9563082389")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left bottom)
+		)
+	)
+	(gr_text "if nothing here makes sence mb i am like weirdly tired\nthe data sheets are in the zip folder\ncontact me if you are confused"
+		(at 170 118.75 0)
+		(layer "Cmts.User")
+		(uuid "156b5c8f-0920-4856-9972-58b200d13675")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left bottom)
+		)
+	)
+	(gr_text "tp4056 lipo charger"
+		(at 171.5 83 0)
+		(layer "Cmts.User")
+		(uuid "d81dc2e7-16e9-49bf-8a31-4f309d321114")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left bottom)
+		)
+	)
+	(gr_text "dw0-1 charger protector"
+		(at 185 94 0)
+		(layer "Cmts.User")
+		(uuid "91469efc-c899-411e-b8eb-4dd2f49a27e8")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left bottom)
+		)
+	)
+	(gr_text "0.6v vccq\n1.8v vcc1\n1.1v vcc2\n3.3v emmc"
+		(at 198.75 85.75 0)
+		(layer "Cmts.User")
+		(uuid "d9485d3d-94e5-4639-a915-bd48bdb50fb5")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left bottom)
+		)
 	)
 	(segment
 		(start 154.9 76.175)
