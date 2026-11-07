@@ -25,3 +25,11 @@ I finished part A of the RAM, and now I'm going to move onto part 2, making it a
 (covered in lapses 1..4)
 
 Do note that a lot of this was starting to understand the new project, seeing as I really haven't worked with such complicated things, but also yk its Kicad, and it's quite different.
+
+---
+
+And yipee I finished the other part of the RAM as well!!!
+
+<img width="903" height="796" alt="image" src="https://github.com/user-attachments/assets/0f54c0d3-07d9-4052-b838-5d91791b6bec" />
+
+<img width="332" height="597" alt="image" src="https://github.com/user-attachments/assets/79956db2-252c-4a07-a5a4-dec4ff180b10" />
