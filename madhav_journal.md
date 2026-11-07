@@ -1,4 +1,4 @@
-# Journal.md
+My running journal entry!
 
 ## 11/7
 
