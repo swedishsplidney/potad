@@ -18,6 +18,14 @@ I feel like the end might be in sight!!!
 
 <img width="863" height="882" alt="image" src="https://github.com/user-attachments/assets/844d889c-d22e-46aa-a232-28aa2c23298a" />
 
+And I finished the RTL!!!! This was so much work but hey finally it's done!!! I left the RFIO trace as is, because it kind of looks cool and remains a reminder that this is for the the antenna (At least I assume)
+
+<img width="468" height="461" alt="image" src="https://github.com/user-attachments/assets/f5262472-294a-4d21-be2e-4bd1d9b5e019" />
+
+<img width="599" height="775" alt="image" src="https://github.com/user-attachments/assets/3c028ae4-dd3d-4ab5-8fd8-11540cbde8c2" />
+
+The H616 IS ALMOST FREEEEEEEE!!!!
+
 ## 11/5 and 11/6
 
 Spent some time organizing the schematic, made the USB stuff very nice! (5th and 6th)
