@@ -1,5 +1,23 @@
 # Journal.md
 
+## 11/7
+
+So far I've been working on simplifying the schematics, again, and here's what I've got so far!
+
+<img width="533" height="618" alt="image" src="https://github.com/user-attachments/assets/fd8a4c0e-713b-4ccf-8916-4b4546df37e2" />
+
+I got the TFP401PZP disconnected (as in now it uses net labels) from the H616, and then I worked on the RTL8723DS-CG. There's still the entire 16 GB Samsung EMMC to take care of, and still a good chunk of the RTL as of now!
+
+<img width="835" height="652" alt="image" src="https://github.com/user-attachments/assets/5e0a2556-08fa-4b85-b5e5-ea01dae7636f" />
+
+---
+
+I will say that this stuff take so freaking long to get done. You have to wire hundreds of new netlabels and then double check you're not screwing stuff up and then disconnect and stuff ... maybe I'm just slow at this but it's a lot of work, as satisfying as it is. Especially because I'm not quite used to Kicad yet, it's just quite a pain. The weird mouse scrolling in Kicad is definitely not helping.
+
+I feel like the end might be in sight!!!
+
+<img width="863" height="882" alt="image" src="https://github.com/user-attachments/assets/844d889c-d22e-46aa-a232-28aa2c23298a" />
+
 ## 11/5 and 11/6
 
 Spent some time organizing the schematic, made the USB stuff very nice! (5th and 6th)
