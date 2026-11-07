@@ -181,4 +181,4 @@ check out `LICENCE.md` for more information
 
 ---
 
-built by **FlyingFish** and **SwedishSplidney**
+built by **FlyingFish**, **SwedishSplidney**, **Madhav**, and **Kus**
