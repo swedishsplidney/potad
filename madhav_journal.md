@@ -18,8 +18,7 @@ I feel like the end might be in sight!!!
 
 <img width="863" height="882" alt="image" src="https://github.com/user-attachments/assets/844d889c-d22e-46aa-a232-28aa2c23298a" />
 
----
----
+### RTL Cleanup
 
 And I finished the RTL!!!! This was so much work but hey finally it's done!!! I left the RFIO trace as is, because it kind of looks cool and remains a reminder that this is for the the antenna (At least I assume)
 
@@ -29,8 +28,7 @@ And I finished the RTL!!!! This was so much work but hey finally it's done!!! I 
 
 The H616 IS ALMOST FREEEEEEEE!!!!
 
----
----
+### EMMC cleanup
 
 I can confirm, the EMMC is in fact now clean.
 
@@ -39,6 +37,19 @@ I can confirm, the EMMC is in fact now clean.
 And the H616 (the main CPU) is now also free. YAYAYAYAY!!!!!
 
 <img width="258" height="698" alt="image" src="https://github.com/user-attachments/assets/a58b4549-f19f-4a12-bfe7-b4d930cf3c18" />
+
+### Finishing cleanup
+
+Then I went on to finishing up all the cleanup!! I reorganized ground pins and connected some other things, and placed quite a few NC pins!
+
+<img width="441" height="806" alt="image" src="https://github.com/user-attachments/assets/217bd05f-710f-4e95-99b9-84ca0cb13ae4" />
+
+I also fixed a few unconnected pins.
+
+<img width="468" height="224" alt="image" src="https://github.com/user-attachments/assets/82e55f39-165a-459c-b371-dccfc2a95802" />
+
+<img width="502" height="234" alt="image" src="https://github.com/user-attachments/assets/dbfd3f23-1f15-4abb-956c-a819fc2ed49b" />
+
 
 ## 11/5 and 11/6
 
