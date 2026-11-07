@@ -29,6 +29,17 @@ And I finished the RTL!!!! This was so much work but hey finally it's done!!! I 
 
 The H616 IS ALMOST FREEEEEEEE!!!!
 
+---
+---
+
+I can confirm, the EMMC is in fact now clean.
+
+<img width="1333" height="886" alt="image" src="https://github.com/user-attachments/assets/c7e6f9d2-6d44-4ae1-8b68-5662391fe027" />
+
+And the H616 (the main CPU) is now also free. YAYAYAYAY!!!!!
+
+<img width="258" height="698" alt="image" src="https://github.com/user-attachments/assets/a58b4549-f19f-4a12-bfe7-b4d930cf3c18" />
+
 ## 11/5 and 11/6
 
 Spent some time organizing the schematic, made the USB stuff very nice! (5th and 6th)
