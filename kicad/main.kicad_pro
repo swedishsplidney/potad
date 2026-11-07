@@ -668,7 +668,7 @@
         "uuid": "cc499d34-9113-4085-abff-1245a2362c00"
       }
     ],
-    "used_designators": "#PWR18,decupple1",
+    "used_designators": "#PWR18,#PWR96-97,Y2,decupple1",
     "variants": []
   },
   "sheets": [
