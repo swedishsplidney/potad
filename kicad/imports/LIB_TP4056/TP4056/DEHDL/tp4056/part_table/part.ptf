@@ -1,0 +1,11 @@
+FILE_TYPE = MULTI_PHYS_TABLE;
+
+PART 'TP4056'
+CLASS = IO
+{========================================================================================}
+:"MANUFACTURER_NAME", "MANUFACTURER_PART_NUMBER"= "PART_NUMBER", "JEDEC_TYPE", "PACK_TYPE", "MOUSER_PART_NUMBER", "MOUSER_PRICE/STOCK", "ARROW_PART_NUMBER", "ARROW_PRICE/STOCK", "DESCRIPTION", "DATASHEET", "HEIGHT", "TJ", "MTBF", "POWER", "SLOPE", "SUBTYPE", "PACKAGE", "RJA", "VCC_MAX", "VCC_MIN", "IOUT_MAX", "IOUT_MIN", "ICC", "IGND", "RCA", "RJC", "ICCQ", "TECHNOLOGY";
+{========================================================================================}
+ "NanJing Top Power", "TP4056" (!) = "", "SOIC127P600X175-9N", "Small Outline Packages", "", "", "", "", "1A Standalone Linear Li-lon Battery Charger, SOP-8", "https://dlnmh9ip6v2uc.cloudfront.net/datasheets/Prototyping/TP4056.pdf", "1.75 mm", "145", "", "", "", "LI-ION BATTERY CHARGER SMD", "SOP-8", "", "", "", "", "", "500u", "", "", "", "", "CMOS"
+END_PART
+
+END.
