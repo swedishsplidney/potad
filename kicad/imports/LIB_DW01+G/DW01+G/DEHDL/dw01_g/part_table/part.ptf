@@ -1,0 +1,11 @@
+FILE_TYPE = MULTI_PHYS_TABLE;
+
+PART 'DW01_G'
+CLASS = IC
+{========================================================================================}
+:"MANUFACTURER_NAME", "MANUFACTURER_PART_NUMBER"= "PART_NUMBER", "JEDEC_TYPE", "PACK_TYPE", "MOUSER_PART_NUMBER", "MOUSER_PRICE/STOCK", "ARROW_PART_NUMBER", "ARROW_PRICE/STOCK", "DESCRIPTION", "DATASHEET", "HEIGHT";
+{========================================================================================}
+ "Fortune Semiconductor Corporation", "DW01+G" (!) = "", "SOT95P280X145-6N", "SOT23 (6-Pin)", "", "", "", "", "One Cell Lithium-ion/Polymer Battery Protection IC", "https://datasheet.lcsc.com/szlcsc/Fortune-Semicon-DW01-G_C14213.pdf", "1.45 mm"
+END_PART
+
+END.

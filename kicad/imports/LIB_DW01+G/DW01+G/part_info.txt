@@ -1,0 +1,9 @@
+Manufacturer=Fortune Semiconductor Corporation
+PartNumber=DW01+G
+PartCategory=Integrated Circuit
+PackageCategory=SOT23 (6-Pin)
+PinCount=6
+Version=1.1
+Released=2019-07-13 23:55:50
+Downloaded=2026-11-04 00:34:45
+3D=Y

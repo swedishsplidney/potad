@@ -1,0 +1,9 @@
+Manufacturer=NanJing Top Power
+PartNumber=TP4056
+PartCategory=Connector
+PackageCategory=Small Outline Packages
+PinCount=9
+Version=1.1
+Released=2018-03-01 11:32:41
+Downloaded=2026-11-04 00:34:05
+3D=Y
