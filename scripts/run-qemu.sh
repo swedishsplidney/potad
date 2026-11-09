@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
 
+usage() {
+  cat <<'USAGE'
+Usage: scripts/run-qemu.sh [--uboot] [--gui] [-- extra qemu args]
+
+  --uboot   boot through U-Boot (extlinux.conf) instead of -kernel
+  --gui     virtio-gpu window plus serial on stdio, instead of -nographic
+
+Environment: BOARD [qemu_aarch64], SMP [4], MEM [2048] (MiB), CONSOLE [ttyAMA0], KERNEL_ARGS
+USAGE
+}
+
 set -euo pipefail
 
 die() { echo "[-] error: $*" >&2; exit 1; }
@@ -14,7 +25,8 @@ for candidate in "$SCRIPT_DIR" "$SCRIPT_DIR/.."; do
 done
 [[ -n "$ROOT_DIR" ]] || die "cannot find the project root from $SCRIPT_DIR"
 
-IMAGES="$ROOT_DIR/buildroot/output/images"
+BOARD="${BOARD:-qemu_aarch64}"
+IMAGES="$ROOT_DIR/build/br-$BOARD/images"
 HOME_IMG="$ROOT_DIR/build/home.img"
 
 MODE=kernel
@@ -23,7 +35,7 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --uboot) MODE=uboot ;;
     --gui)   GUI=1 ;;
-    -h|--help) sed -n '2,12p' "${BASH_SOURCE[0]}"; exit 0 ;;
+    -h|--help) usage; exit 0 ;;
     --) shift; break ;;
     *) die "unknown option '$1' (try --help)" ;;
   esac
@@ -55,7 +67,7 @@ if [[ "$MODE" == uboot ]]; then
 else
   [[ -f "$IMAGES/Image" ]] || die "no kernel Image in $IMAGES"
   QEMU+=(-kernel "$IMAGES/Image"
-         -append "console=ttyAMA0 root=/dev/vda rw rootwait earlycon init=/sbin/potad_init ${KERNEL_ARGS:-}")
+         -append "console=${CONSOLE:-ttyAMA0} root=/dev/vda rw rootwait earlycon init=/sbin/potad_init ${KERNEL_ARGS:-}")
 fi
 
 if (( GUI )); then

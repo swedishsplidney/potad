@@ -7,7 +7,9 @@
 
 #include <cerrno>
 #include <csignal>
+#include <cstdio>
 #include <cstring>
+#include <ctime>
 #include <fcntl.h>
 #include <net/if.h>
 #include <sys/ioctl.h>
@@ -69,8 +71,46 @@ void setup_hotplug() {
         close(fd);
     }
 
-    const pid_t pid = spawn("/sbin/mdev", {"-s"});
-    if (pid > 0) wait_for(pid, 10000);
+    SpawnOptions opts;
+    opts.new_pgrp = true;
+    const pid_t pid = spawn("/sbin/mdev", {"-s"}, opts);
+    if (pid > 0 && wait_for(pid, cfg::kMdevTimeoutMs) == kWaitTimeout) {
+        potad_log(LogLevel::Warning, "mdev -s timed out after %d ms, killed", cfg::kMdevTimeoutMs);
+    }
+}
+
+void clock_restore() {
+    long long target = cfg::kClockFloor;
+    if (FILE* f = fopen(cfg::kTimeFile, "r")) {
+        long long saved = 0;
+        if (fscanf(f, "%lld", &saved) == 1 && saved > target) target = saved;
+        fclose(f);
+    }
+
+    timespec now{};
+    clock_gettime(CLOCK_REALTIME, &now);
+    if (now.tv_sec >= target) return;
+
+    const timespec ts{static_cast<time_t>(target), 0};
+    if (clock_settime(CLOCK_REALTIME, &ts) < 0) {
+        potad_log(LogLevel::Warning, "could not restore the clock: %s", strerror(errno));
+    } else {
+        potad_log(LogLevel::Info, "clock was behind, restored to saved time");
+    }
+}
+
+void clock_save() {
+    timespec now{};
+    clock_gettime(CLOCK_REALTIME, &now);
+    if (now.tv_sec < cfg::kClockFloor) return;
+
+    FILE* f = fopen(cfg::kTimeFile, "w");
+    if (!f) {
+        potad_log(LogLevel::Debug, "could not save the clock: %s", strerror(errno));
+        return;
+    }
+    fprintf(f, "%lld\n", static_cast<long long>(now.tv_sec));
+    fclose(f);
 }
 
 int setup_signals() {
@@ -111,11 +151,12 @@ void graceful_shutdown() {
     kill(-1, SIGTERM);
     kill(-1, SIGCONT);
     if (!reap_all(cfg::kShutdownGraceMs)) {
-        potad_log(LogLevel::Warning, "killing processes that ignored SIGTERM");
+        potad_log(LogLevel::Warning, "killing processes that ignored the SIGTERM");
         kill(-1, SIGKILL);
         reap_all(1000);
     }
 
+    clock_save();
     sync();
     unmount_filesystems();
 }

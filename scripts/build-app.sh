@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# build potad and a bootable image via buildroot
+#
+# usage: ./scripts/build-app.sh
+
 set -euo pipefail
 
 say()  { echo "[+] $*"; }
@@ -18,7 +22,7 @@ done
 cd "$ROOT_DIR"
 
 if [[ "$ROOT_DIR" == *[[:space:]]* ]]; then
-  die "project path contains spaces: '$ROOT_DIR' (Buildroot cannot cope with that)"
+  die "project path contains spaces: '$ROOT_DIR' (spaces make buildroot explode)"
 fi
 
 if [[ "${1:-}" == "clean" ]]; then
@@ -32,6 +36,9 @@ ROOT_DEV="${ROOT_DEV:-/dev/vda}"
 HOME_DEV="${HOME_DEV:-/dev/vdb}"
 CONSOLE="${CONSOLE:-ttyAMA0}"
 KERNEL_ARGS="${KERNEL_ARGS:-}"
+FDT="${FDT:-}"
+PANIC_SECS="${PANIC_SECS:-5}"
+DEFAULT_BR_REF="2025.02.14"
 ROOTFS_SIZE="${ROOTFS_SIZE:-512M}"
 HOME_IMG_MB="${HOME_IMG_MB:-128}"
 JOBS="${JOBS:-$(nproc)}"
@@ -40,6 +47,7 @@ BR_DIR="$ROOT_DIR/buildroot"
 BR_URL="https://gitlab.com/buildroot.org/buildroot.git"
 OVERLAY_DIR="$ROOT_DIR/board/$BOARD/rootfs_overlay"
 BUILD_DIR="$ROOT_DIR/build"
+BR_OUT="$BUILD_DIR/br-$BOARD"
 GEN_DEFCONFIG="$BUILD_DIR/$BOARD.defconfig"
 HOME_IMG="$BUILD_DIR/home.img"
 
@@ -54,8 +62,8 @@ done
 export PATH="$clean_path"
 
 missing=()
-for tool in git make gcc g++ sed rsync flex bison bc perl cpio unzip file patch tar gzip bzip2 \
-            find awk which wget mkfs.ext4 truncate cmp; do
+for tool in git make gcc g++ ld sed rsync flex bison bc perl python3 cpio unzip file patch tar gzip bzip2 \
+            find awk which wget mkfs.ext4 truncate cmp diff; do
   command -v "$tool" &>/dev/null || missing+=("$tool")
 done
 if (( ${#missing[@]} )); then
@@ -67,9 +75,6 @@ for hdr in openssl/engine.h gnutls/gnutls.h uuid/uuid.h; do
     || die "host header <$hdr> not found. On fedora: sudo dnf install openssl-devel openssl-devel-engine gnutls-devel libuuid-devel"
 done
 
-for src in main fs sys process service control_socket log client; do
-  [[ -f "src/$src.cpp" ]] || die "source file 'src/$src.cpp' missing"
-done
 [[ -f "$DEFCONFIG" ]] || die "config file '$DEFCONFIG' not found"
 
 latest_release_tag() {
@@ -79,17 +84,25 @@ latest_release_tag() {
     | sort -V | tail -n1 || true
 }
 
+br_ref="${BUILDROOT_REF:-$DEFAULT_BR_REF}"
+[[ "$br_ref" == latest ]] && br_ref="$(latest_release_tag)"
+
 if [[ ! -f "$BR_DIR/Makefile" ]]; then
-  ref="${BUILDROOT_REF:-$(latest_release_tag)}"
   rm -rf "$BR_DIR"
-  if [[ -n "$ref" ]]; then
-    say "cloning buildroot $ref..."
-    git clone --depth 1 --branch "$ref" "$BR_URL" "$BR_DIR"
+  if [[ -n "$br_ref" ]]; then
+    say "cloning buildroot $br_ref..."
+    git clone --depth 1 --branch "$br_ref" "$BR_URL" "$BR_DIR"
   else
     warn "could not determine a release tag; cloning the development branch"
     git clone --depth 1 "$BR_URL" "$BR_DIR"
   fi
+elif [[ -n "$br_ref" ]]; then
+  current="$(git -C "$BR_DIR" describe --tags --exact-match 2>/dev/null || true)"
+  [[ "$current" == "$br_ref" ]] \
+    || warn "buildroot checkout is '${current:-unknown}' but BUILDROOT_REF is '$br_ref' (delete $BR_DIR to re-clone)"
 fi
+
+br_make() { make -C "$BR_DIR" O="$BR_OUT" "$@"; }
 
 mkdir -p "$BUILD_DIR"
 cp "$DEFCONFIG" "$GEN_DEFCONFIG"
@@ -112,15 +125,15 @@ if [[ "${CCACHE:-0}" == 1 ]]; then
 fi
 
 STAMP="$BUILD_DIR/$BOARD.defconfig.applied"
-if [[ ! -f "$BR_DIR/.config" ]] || ! cmp -s "$GEN_DEFCONFIG" "$STAMP" 2>/dev/null; then
+if [[ ! -f "$BR_OUT/.config" ]] || ! cmp -s "$GEN_DEFCONFIG" "$STAMP" 2>/dev/null; then
   say "applying buildroot configuration..."
-  make -C "$BR_DIR" defconfig BR2_DEFCONFIG="$GEN_DEFCONFIG"
+  br_make defconfig BR2_DEFCONFIG="$GEN_DEFCONFIG"
   cp "$GEN_DEFCONFIG" "$STAMP"
 fi
 
 find_cxx() {
   local f
-  for f in "$BR_DIR"/output/host/bin/*-g++; do
+  for f in "$BR_OUT"/host/bin/*-g++; do
     [[ -x "$f" ]] && { printf '%s' "$f"; return 0; }
   done
   return 1
@@ -129,7 +142,7 @@ find_cxx() {
 CXX_BIN="$(find_cxx || true)"
 if [[ -z "$CXX_BIN" ]]; then
   say "building buildroot host-gcc-final (might take a while)..."
-  make -C "$BR_DIR" host-gcc-final-rebuild || make -C "$BR_DIR" host-gcc-final
+  br_make -j"$JOBS" host-gcc-final
   CXX_BIN="$(find_cxx || true)"
   [[ -n "$CXX_BIN" ]] || die "toolchain built but no g++ found; the config needs BR2_TOOLCHAIN_BUILDROOT_CXX=y"
 fi
@@ -151,18 +164,23 @@ write_if_changed() {
 }
 
 say "writing /etc/fstab and extlinux.conf..."
-write_if_changed "$OVERLAY_DIR/etc/fstab" << EOF
-# /etc/fstab: static file system information
-# <file system>  <mount point>  <type>  <options>     <dump>  <pass>
-$ROOT_DEV        /              ext4    rw,relatime   0       1
-$HOME_DEV        /home          ext4    rw,relatime   0       2
-EOF
+{
+  echo "# /etc/fstab: static file system information"
+  echo "# <file system>  <mount point>  <type>  <options>     <dump>  <pass>"
+  echo "$ROOT_DEV        /              ext4    rw,relatime   0       1"
+  if [[ -n "$HOME_DEV" ]]; then
+    echo "$HOME_DEV        /home          ext4    rw,relatime   0       2"
+  fi
+} | write_if_changed "$OVERLAY_DIR/etc/fstab"
 
-write_if_changed "$OVERLAY_DIR/boot/extlinux/extlinux.conf" << EOF
-label potad-linux
-    kernel /boot/Image
-    append console=$CONSOLE root=$ROOT_DEV rw rootwait earlycon init=/sbin/potad_init $KERNEL_ARGS
-EOF
+{
+  echo "label potad-linux"
+  echo "    kernel /boot/Image"
+  if [[ -n "$FDT" ]]; then
+    echo "    fdt /boot/$FDT"
+  fi
+  echo "    append console=$CONSOLE root=$ROOT_DEV rw rootwait earlycon init=/sbin/potad_init panic=$PANIC_SECS $KERNEL_ARGS"
+} | write_if_changed "$OVERLAY_DIR/boot/extlinux/extlinux.conf"
 
 LAZYVIM_DIR="$OVERLAY_DIR/root/.config/nvim"
 if [[ "${LAZYVIM:-1}" == 1 && ! -f "$LAZYVIM_DIR/init.lua" ]]; then
@@ -177,7 +195,7 @@ if [[ "${LAZYVIM:-1}" == 1 && ! -f "$LAZYVIM_DIR/init.lua" ]]; then
   fi
 fi
 
-if [[ ! -f "$HOME_IMG" ]]; then
+if [[ -n "$HOME_DEV" && ! -f "$HOME_IMG" ]]; then
   if [[ -f "$BR_DIR/output/images/home.img" ]]; then
     say "migrating existing home.img to $HOME_IMG..."
     cp "$BR_DIR/output/images/home.img" "$HOME_IMG"
@@ -188,8 +206,7 @@ if [[ ! -f "$HOME_IMG" ]]; then
   fi
 fi
 
-# buildroot
-say "building kernel, U-Boot and rootfs..."
-make -C "$BR_DIR" -j"$JOBS"
+say "building kernel, u-boot and rootfs..."
+br_make -j"$JOBS"
 
-say "build complete! artifacts are in buildroot/output/images/"
+say "build complete! artifacts are in ${BR_OUT#"$ROOT_DIR"/}/images/"
