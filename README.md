@@ -32,15 +32,25 @@ it runs a custom linux-based distro designed using buildroot for lightweight eff
 
 # software specs:
 
-* buildroot-generated aarch64 linux kernel
-* u-boot bootloader configuration
-* custom c++ pid 1 process manager
-* busybox shell
-* virtual filesystems
-* cross-compiled neovim, git, make and more
-* dhcp network integration
-* graceful shutdown (`exit`)
-* 
+**core**
+* custom C++17 PID 1 (`potad_init`): early mounts, signal handling, service supervision with backoff, graceful shutdown
+* `potad-ctl` control socket (`status`, `services`, `poweroff`, `reboot`), root only
+* sysV-style `/etc/init.d/S*` scripts and `/etc/rc.local`
+* fstab mounting with retries for late block devices; clean unmount and read-only root on shutdown
+* persistent clock for boards without an RTC; `mdev` hotplug
+
+**system**
+* buildroot-generated aarch64 linux kernel, busybox userland
+* u-boot + extlinux boot configuration
+* DHCP networking
+* deparate persistent `/home` partiton
+
+**env**
+* cross-compiled neovim/lazyvim, git, make, and more
+
+**toolin**
+* `scripts/build-app.sh`: one-command build script that may or may not be good
+  * `scripts/run-qemu.sh`: boot in QEMU to test stuff
 
 software development led by SwedishSplidney
 
