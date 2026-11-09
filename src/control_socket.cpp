@@ -68,7 +68,16 @@ void control_socket_handle(int listen_fd) {
     for (;;) {
         const int fd = accept4(listen_fd, nullptr, nullptr, SOCK_CLOEXEC);
         if (fd < 0) {
-            if (errno == EINTR) continue;
+            if (errno == EINTR || errno == ECONNABORTED) continue;
+            if (errno == EMFILE || errno == ENFILE) {
+                // pending connection stays queueed
+                static bool warned = false;
+                if (!warned) {
+                    warned = true;
+                    potad_log(LogLevel::Warning, "control socket: out of file descriptors, backing off");
+                }
+                usleep(100 * 1000);
+            }
             return;
         }
 

@@ -40,10 +40,11 @@ int main() {
     mount_early_filesystems();
     setup_console();
     log_init();
-    if (write(STDOUT_FILENO, kBanner, sizeof kBanner - 1) < 0) { /* console is gone lol */ }
+    if (write(STDOUT_FILENO, kBanner, sizeof kBanner - 1) < 0) { /* console is gone atp lol */ }
 
     setup_dev_symlinks();
     remount_root_rw();
+    clock_restore();
     setup_hostname();
     const int signal_fd = setup_signals();
 
@@ -65,6 +66,7 @@ int main() {
     shell.respawn = !cfg::kShellExitPowersOff;
     shell.poweroff_on_exit = cfg::kShellExitPowersOff;
     start_service(std::move(shell));
+    services_reap();
 
     pollfd fds[2] = {{signal_fd, POLLIN, 0}, {control_fd, POLLIN, 0}};
     while (g_shutdown_cmd == 0) {

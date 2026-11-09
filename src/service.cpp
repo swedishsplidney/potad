@@ -153,6 +153,13 @@ int services_next_timeout_ms() {
 void services_begin_shutdown() {
     g_shutting_down = true;
     if (g_init_job_pid > 0) kill(g_init_job_pid, SIGKILL);
+    
+    for (const auto& s : g_services) {
+        if (s.pid > 0 && s.console) {
+            kill(-s.pid, SIGHUP);
+            kill(-s.pid, SIGCONT);
+        }
+    }
 }
 
 int services_running() {
@@ -184,14 +191,18 @@ void run_init_scripts(const char* action, bool reverse, int timeout_ms) {
 
     for (const auto& script : scripts) {
         potad_log(LogLevel::Info, "init: %s %s", script.c_str(), action);
-        const pid_t pid = spawn(script, {action});
+        SpawnOptions opts;
+        opts.new_pgrp = true;
+        const pid_t pid = spawn(script, {action}, opts);
         if (pid < 0) {
             potad_log(LogLevel::Err, "fork failed for %s", script.c_str());
             continue;
         }
         const int status = wait_for(pid, timeout_ms);
-        if (status < 0) {
+        if (status == kWaitTimeout) {
             potad_log(LogLevel::Warning, "%s %s timed out after %d ms, killed", script.c_str(), action, timeout_ms);
+        } else if (status == kWaitError) {
+            potad_log(LogLevel::Warning, "%s %s: lost track of child (%s)", script.c_str(), action, strerror(errno));
         } else if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
             potad_log(LogLevel::Warning, "%s %s %s", script.c_str(), action, describe_status(status).c_str());
         }

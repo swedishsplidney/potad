@@ -17,7 +17,7 @@ int64_t now_ms() {
 }
 
 namespace {
-
+    
 void wait_sigchld(int64_t ms) {
     sigset_t set;
     sigemptyset(&set);
@@ -56,6 +56,7 @@ pid_t spawn(const std::string& path, const std::vector<std::string>& args, const
     sigprocmask(SIG_SETMASK, &none, nullptr);
 
     if (opts.console) attach_console();
+    else if (opts.new_pgrp) setpgid(0, 0);
 
     execv(path.c_str(), argv.data());
 
@@ -71,13 +72,14 @@ int wait_for(pid_t pid, int timeout_ms) {
         int status = 0;
         const pid_t r = waitpid(pid, &status, WNOHANG);
         if (r == pid) return status;
-        if (r < 0 && errno != EINTR) return -1;
+        if (r < 0 && errno != EINTR) return kWaitError;
 
         const int64_t left = deadline - now_ms();
         if (left <= 0) {
+            kill(-pid, SIGKILL);
             kill(pid, SIGKILL);
             waitpid(pid, &status, 0);
-            return -1;
+            return kWaitTimeout;
         }
         wait_sigchld(left);
     }
