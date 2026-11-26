@@ -1,9 +1,9 @@
 Name,count,notes,price,link
-allwinner h616,1, primary cpu/gpu,$9.41,https://www.lcsc.com/product-detail/C5365289.html?s_z=n_q_allwinner%2520h616
+allwinner h616,1,primary cpu/gpu,$9.41,https://www.lcsc.com/product-detail/C5365289.html?s_z=n_q_allwinner%2520h616
 SAMSUNG KLMBG2JETD-B041,1,emmc flash,$45.24,https://www.lcsc.com/product-detail/C2803245.html?s_z=n_q_samsung%2520klmbg2jetd-b041
 REALTEK RTL8211F-CG,1,the wifi module,$1.22,https://www.lcsc.com/product-detail/C187932.html?s_z=n_q_RTL8211F-CG
 SAMSUNG K4UBE3D4AB-MGCL,1,32Gb lpddr4x,$80.15,https://www.lcsc.com/product-detail/C5827966.html?s_z=n_q_l_sdram
-GRAPHIC DISPLAY TFT RGB 5",1, lcd display,$27.50,https://www.digikey.com/en/products/detail/adafruit-industries-llc/1680/10670023
+GRAPHIC DISPLAY TFT RGB,1,lcd display,$27.50,https://www.digikey.com/en/products/detail/adafruit-industries-llc/1680/10670023
 TI TFP401PZP,1, screens diver,$9.72,https://www.lcsc.com/product-detail/C2867606.html
 SW_Push_1P1T_NO_CK_PTS125Sx43PSMTR,70,,$0.61*70,https://www.digikey.com/en/products/detail/c-k/PTS125SM43/253361
 usbc,2,,$0.64*2,https://www.lcsc.com/product-detail/C2927038.html
