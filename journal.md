@@ -44,3 +44,5 @@
 * 11/1
   * i added all of the letters on to the key caps
   * it was soooo much harder then i expected
+* 11/3-11/8 
+  * idk i havnt had a though in a while but stuff got done so idk
