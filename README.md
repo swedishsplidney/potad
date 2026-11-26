@@ -51,6 +51,9 @@ it runs a custom linux-based distro designed using buildroot for lightweight eff
 **toolin**
 * `scripts/build-app.sh`: one-command build script that may or may not be good
   * `scripts/run-qemu.sh`: boot in QEMU to test stuff
+ 
+**keyboard**
+* keyboard code is in `kicad/keyboard/code`. Install CircuitPython onto your keyboard, and then using Thonny add the `code.py` file and the `kmk` folder.
 
 software development led by SwedishSplidney
 
