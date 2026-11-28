@@ -12,7 +12,7 @@ resistors,1,1k,$0.28,https://www.lcsc.com/product-detail/C95781.html
 resistors,2,10k,$0.51,https://www.lcsc.com/product-detail/Chip-Resistor-Surface-Mount_10KR-10K-5_C149881.html
 resistors,3,240,$0.32,https://www.lcsc.com/product-detail/chip-resistor-surface-mount_vo-0805-5-240_C2889539.html
 resistors,4,5.1k,$0.14,https://www.lcsc.com/product-detail/C25905.html
-diode,70,,,$0.59,https://www.lcsc.com/product-detail/C258182.html
+diode,70,,$0.59,https://www.lcsc.com/product-detail/C258182.html
 capacitor,2,15pf,$0.19,https://www.lcsc.com/product-detail/C1548.html
 capacitor,12,0.1uf,$0.48,https://www.lcsc.com/product-detail/C14663.html
 capacitor,3,1uf,$1.11,https://www.lcsc.com/product-detail/Multilayer-Ceramic-Capacitors-MLCC-SMD-SMT_YAGEO-CC0805KKX7R8BB105_C91186.html
